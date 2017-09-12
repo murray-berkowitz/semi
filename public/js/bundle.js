@@ -27295,11 +27295,12 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 var shirtObject = [{
-    name: "Shirt 1",
+    name: "Easy Care Slim Fit Long Sleeve Shirts",
     id: 400345,
     fit: "Slim",
     sizes: ['s', 'l'],
-    colors: ['red', 'blue']
+    colors: ['red', 'blue'],
+    collar: "regular"
 }, {
     name: "Shirt 2",
     id: 400567,
@@ -27318,6 +27319,40 @@ var colorObj = exports.colorObj = {
     Regular: ['red', 'green'],
     Slim: ['white', 'blue']
 };
+
+var Shirts = {
+    Regular: {
+        sizes: ['xs', 's', 'm', 'l', 'xl', 'xxl', '3xl'],
+        colors: {
+            'white': '00',
+            'blue': '63'
+        },
+        regularCollar: {
+            name: "",
+            id: ""
+        },
+        buttonDownCollar: {
+            name: "",
+            id: ""
+        }
+    },
+    Slim: {
+        sizes: ['xs', 's', 'm', 'l', 'xl'],
+        colors: {
+            'white': '00',
+            'blue': '60'
+        },
+        regularCollar: {
+            name: "",
+            id: ""
+        },
+        buttonDownCollar: {
+            name: "",
+            id: ""
+        }
+    }
+};
+
 exports.default = shirtObject;
 
 /***/ }),
