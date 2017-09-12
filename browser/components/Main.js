@@ -7,7 +7,7 @@ export default class Main extends Component{
     constructor(){
         super();
         this.state = {
-            imageUrl: "",
+            imageUrl: "https://images.pexels.com/photos/104827/cat-pet-animal-domestic-104827.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb",
             cta: ""
         }
         this.updateFeaturedImage = this.updateFeaturedImage.bind(this);

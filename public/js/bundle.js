@@ -23804,7 +23804,7 @@ var Main = function (_Component) {
         var _this = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this));
 
         _this.state = {
-            imageUrl: "",
+            imageUrl: "https://images.pexels.com/photos/104827/cat-pet-animal-domestic-104827.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb",
             cta: ""
         };
         _this.updateFeaturedImage = _this.updateFeaturedImage.bind(_this);
@@ -27113,6 +27113,8 @@ var _shirtObj2 = _interopRequireDefault(_shirtObj);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -27127,72 +27129,132 @@ var Dropdown = function (_Component) {
 
         var _this = _possibleConstructorReturn(this, (Dropdown.__proto__ || Object.getPrototypeOf(Dropdown)).call(this));
 
-        _this.filterSlim = _this.filterSlim.bind(_this);
-        _this.filterSize = _this.filterSize.bind(_this);
+        _this.filterFit = _this.filterFit.bind(_this);
         _this.filterColor = _this.filterColor.bind(_this);
         _this.selectedRadio = _this.selectedRadio.bind(_this);
+        _this.initalize = _this.initialize.bind(_this);
         _this.state = {
             selectedFilters: [],
             currentShirtObj: _shirtObj2.default,
-            isChecked: false
+            currentColors: [],
+            selectedFit: '',
+            selectedColor: '',
+            selectedSize: ''
         };
+        _this.baseState = _this.state;
         return _this;
     }
 
     _createClass(Dropdown, [{
-        key: 'filterSlim',
-        value: function filterSlim() {
-            var filtered = this.state.currentShirtObj.filter(function (shirt) {
-                return shirt.fit == "Slim";
-            });
-            this.setState({
-                currentShirtObj: filtered
-            });
+        key: 'initialize',
+        value: function initialize() {
+            this.setState(this.baseState);
         }
     }, {
-        key: 'filterSize',
-        value: function filterSize() {
-            var filtered = this.state.currentShirtObj.filter(function (shirt) {
-                return shirt.sizes.includes('m');
+        key: 'filterFit',
+        value: function filterFit(value) {
+            var filtered = _shirtObj2.default.filter(function (shirt) {
+                return shirt.fit == value;
             });
             this.setState({
-                currentShirtObj: filtered
+                currentShirtObj: filtered,
+                currentColors: _shirtObj.colorObj[value]
             });
+            return filtered;
         }
     }, {
         key: 'filterColor',
-        value: function filterColor() {
-            var filtered = this.state.currentShirtObj.filter(function (shirt) {
-                return shirt.colors.includes('blue');
+        value: function filterColor(value) {
+            var base = this.filterFit(this.state.selectedFit);
+            var filtered = base.filter(function (shirt) {
+                return shirt.colors.includes(value);
             });
             this.setState({
                 currentShirtObj: filtered
             });
+            return filtered;
         }
     }, {
         key: 'selectedRadio',
         value: function selectedRadio(e) {
-            console.log(e.target.checked);
-            e.target.checked = !e.target.checked;
+            var clicked = e.target;
+            var name = clicked.name;
+            var value = clicked.value;
+            this.setState(_defineProperty({}, name, value));
+            if (name === 'selectedFit') {
+                this.filterFit(value);
+            }
+            if (name == 'selectedColor') {
+                this.filterColor(value);
+            }
         }
     }, {
         key: 'render',
         value: function render() {
+            var _this2 = this;
+
             var updateFeaturedImage = this.props.updateFeaturedImage;
             var _state = this.state,
                 selectedFilters = _state.selectedFilters,
-                currentShirtObj = _state.currentShirtObj;
+                currentShirtObj = _state.currentShirtObj,
+                selectedFit = _state.selectedFit,
+                selectedSize = _state.selectedSize,
+                selectedColor = _state.selectedColor,
+                currentColors = _state.currentColors;
 
             return _react2.default.createElement(
                 'div',
                 null,
                 _react2.default.createElement(
-                    'h4',
+                    'form',
                     null,
-                    'Select Your Fit'
+                    _react2.default.createElement(
+                        'h4',
+                        null,
+                        'Select Your Fit'
+                    ),
+                    _react2.default.createElement(
+                        'label',
+                        null,
+                        'Slim ',
+                        _react2.default.createElement('input', { type: 'radio', name: 'selectedFit', value: 'Slim', checked: "Slim" === selectedFit, onChange: this.selectedRadio })
+                    ),
+                    _react2.default.createElement(
+                        'label',
+                        null,
+                        'Regular ',
+                        _react2.default.createElement('input', { type: 'radio', name: 'selectedFit', value: 'Regular', checked: "Regular" === selectedFit, onChange: this.selectedRadio })
+                    )
                 ),
-                _react2.default.createElement('input', { type: 'radio', value: 'Slim', onChange: this.selectedRadio }),
-                _react2.default.createElement('input', { type: 'radio', value: 'Regular', onChange: this.selectedRadio })
+                _react2.default.createElement(
+                    'form',
+                    null,
+                    _react2.default.createElement(
+                        'h4',
+                        null,
+                        'Select Your Color'
+                    ),
+                    currentColors.map(function (color) {
+                        return _react2.default.createElement(
+                            'label',
+                            null,
+                            color,
+                            _react2.default.createElement('input', { type: 'radio', name: 'selectedColor', value: color, checked: color == selectedColor, onChange: _this2.selectedRadio })
+                        );
+                    })
+                ),
+                _react2.default.createElement(
+                    'h4',
+                    { style: { textDecorationLine: 'underline' } },
+                    'Results'
+                ),
+                currentShirtObj.map(function (shirt) {
+                    return _react2.default.createElement(
+                        'li',
+                        { key: shirt.id },
+                        shirt.id
+                    );
+                })
             );
         }
     }]);
@@ -27207,6 +27269,15 @@ var Dropdown = function (_Component) {
            <button onClick={this.filterSlim}>Filter Slim!</button>
            <button onClick={this.filterSize}>Filter Size!</button>
            <button onClick={this.filterColor}>Filter Color!</button>
+
+<form>
+                 <h4>Select Your Color</h4>
+                 {
+                     currentColors.map(color => (
+                         <label>{color}<input type="radio" name="selectedColor" value={color} checked={color == selectedColor} onChange={this.selectedRadio}></input></label>
+                     ))
+                 }
+               </form>
   
   */
 
@@ -27238,10 +27309,15 @@ var shirtObject = [{
 }, {
     name: "Shirt 3",
     id: 400789,
-    fit: "regular",
+    fit: "Regular",
     sizes: ['s', 'm', 'l', 'xl'],
     colors: ['red', 'green']
 }];
+
+var colorObj = exports.colorObj = {
+    Regular: ['red', 'green'],
+    Slim: ['white', 'blue']
+};
 exports.default = shirtObject;
 
 /***/ }),

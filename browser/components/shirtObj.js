@@ -16,9 +16,14 @@ const shirtObject = [
     {
         name: "Shirt 3",
         id: 400789,
-        fit:"regular",
+        fit:"Regular",
         sizes: ['s','m','l','xl'],
         colors:['red','green']
     }
 ]
+
+export const colorObj = {
+    Regular: ['red','green'],
+    Slim: ['white', 'blue']
+}
 export default shirtObject;
