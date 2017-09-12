@@ -1,0 +1,26 @@
+.wrapper {
+    max-width:1280px;
+    margin:0 auto;
+}
+
+.span8 {
+    float: left;
+    width: 66.3333333333%;
+}
+
+.col {
+    margin-left:1%;
+}
+
+.span4 {
+    width:32.666667%;
+    float: left;
+}
+.span12 {
+    width:100%;
+    float:left;
+}
+img {
+    max-width:100%;
+    max-height:100%;
+}
