@@ -3,62 +3,59 @@ const shirtObject = [
         name: "Easy Care Slim Fit Long Sleeve Shirts",
         id: 400345,
         fit:"Slim",
-        sizes: ['s','l'],
-        colors:['red','blue'],
-        collar: "regular"
+        size: 'xs',
+        colors:['00','60'], //00 , 60
+        collar: "Regular"
     },
     {
-        name: "Shirt 2",
+        name: "Easy Care Slim Fit Long Sleeve Shirts",
         id: 400567,
         fit:"Slim",
-        sizes: ['xs','s','m','l'],
-        colors:['white','blue']
+        size : 's',
+        colors:['00','60'], //00 , 60
+        collar:"Button Down"
     },
     {
-        name: "Shirt 3",
+        name: "Easy Care Regular Fit Long Sleeve Shirts",
+        id: 400123,
+        fit:"Regular",
+        size : 'm',
+        colors:['00','63'], //00 , 63
+        collar: "Regular"
+    },
+    {
+        name: "Easy Care Regular Fit Long Sleeve Shirts",
         id: 400789,
         fit:"Regular",
-        sizes: ['s','m','l','xl'],
-        colors:['red','green']
-    }
+        size: 'l',
+        colors:['00','63'], //00 , 63
+        collar: "Button Down"
+    },
 ]
 
 export const colorObj = {
-    Regular: ['red','green'],
-    Slim: ['white', 'blue']
+    Regular: ['00','63'],
+    Slim: ['00', '60']
 }
+export const sizeObj = {
+    Regular: ['xs','s','m','l','xl','xxl','3xl'],
+    Slim: ['xs','s','m','l','xl']
+}
+export const collarSizeObj = {
+    xs: ['14.5', '15'],
+    s: ['15.5', '16.0', '16.5'],
+    m: ['16.0', '16.5', '17'],
+    l: ['17', '17.2','17.5','18.0'],
+    xl: ['17.5', '18.0', '18.5'],
+    xxl: ['19.0', '19.5'],
+    xxxl: ['19.5', '20']
+}
+export const sleeveLengthObj = {
+    Regular: {
 
-const Shirts = {
-    Regular :{
-        sizes : ['xs','s','m','l','xl','xxl','3xl'],
-        colors:{
-            'white': '00',
-            'blue' : '63'
-        },
-        regularCollar : {
-            name: "",
-            id: ""
-        },
-        buttonDownCollar : {
-            name:"",
-            id: ""
-        }
     },
-    Slim : {
-        sizes : ['xs','s','m','l','xl'],
-        colors:{
-            'white': '00',
-            'blue' : '60'
-        },
-        regularCollar : {
-            name: "",
-            id: ""
-        },
-        buttonDownCollar : {
-            name:"",
-            id: ""
-        }
+    Slim: {
+
     }
 }
-
 export default shirtObject;

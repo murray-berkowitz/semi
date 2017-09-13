@@ -15,7 +15,7 @@ export default class Main extends Component{
     }
     updateFeaturedImage(e){
         this.setState({
-            imageUrl : "https://images.pexels.com/photos/104827/cat-pet-animal-domestic-104827.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb"
+            imageUrl : e
         })
     }
     updateCta(url){
@@ -34,6 +34,11 @@ export default class Main extends Component{
                 <div className='span4 col'>
                   <Dropdown updateCta={this.updateCta} updateFeaturedImage={this.updateFeaturedImage}/>
                 </div>  
+              </div>
+              <div className="span12">
+                 <div className="wrapper">
+                   <Cta url={cta}/>
+                 </div>
               </div>
             </div>
         )

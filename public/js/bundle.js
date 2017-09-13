@@ -23816,7 +23816,7 @@ var Main = function (_Component) {
         key: 'updateFeaturedImage',
         value: function updateFeaturedImage(e) {
             this.setState({
-                imageUrl: "https://images.pexels.com/photos/104827/cat-pet-animal-domestic-104827.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb"
+                imageUrl: e
             });
         }
     }, {
@@ -23848,6 +23848,15 @@ var Main = function (_Component) {
                         'div',
                         { className: 'span4 col' },
                         _react2.default.createElement(_Dropdown2.default, { updateCta: this.updateCta, updateFeaturedImage: this.updateFeaturedImage })
+                    )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'span12' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'wrapper' },
+                        _react2.default.createElement(_CTA2.default, { url: cta })
                     )
                 )
             );
@@ -27137,9 +27146,12 @@ var Dropdown = function (_Component) {
             selectedFilters: [],
             currentShirtObj: _shirtObj2.default,
             currentColors: [],
+            collars: ["Button Down", "Regular"],
+            selectedCollar: '',
             selectedFit: '',
             selectedColor: '',
-            selectedSize: ''
+            selectedSize: '',
+            currentImage: 'https://images.pexels.com/photos/104827/cat-pet-animal-domestic-104827.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb'
         };
         _this.baseState = _this.state;
         return _this;
@@ -27158,22 +27170,49 @@ var Dropdown = function (_Component) {
             });
             this.setState({
                 currentShirtObj: filtered,
-                currentColors: _shirtObj.colorObj[value]
+                selectedCollar: '',
+                selectedColor: '',
+                currentColors: [],
+                currentImage: 'https://images.pexels.com/photos/104827/cat-pet-animal-domestic-104827.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb'
+            }, function () {
+                this.props.updateFeaturedImage(this.state.currentImage);
+            });
+            return filtered;
+        }
+    }, {
+        key: 'filterCollar',
+        value: function filterCollar(value) {
+            var base = this.filterFit(this.state.selectedFit);
+            var filtered = base.filter(function (shirt) {
+                return shirt.collar == value;
+            });
+            this.setState({
+                selectedCollar: value,
+                currentShirtObj: filtered,
+                currentColors: _shirtObj.colorObj[this.state.selectedFit]
             });
             return filtered;
         }
     }, {
         key: 'filterColor',
         value: function filterColor(value) {
-            var base = this.filterFit(this.state.selectedFit);
+            var base = this.filterCollar(this.state.selectedCollar);
             var filtered = base.filter(function (shirt) {
                 return shirt.colors.includes(value);
             });
             this.setState({
-                currentShirtObj: filtered
+                currentShirtObj: filtered,
+                selectedColor: value,
+                currentImage: 'http://builtwithreact.io/img/share-logo.jpg'
+            }, function () {
+                this.props.updateFeaturedImage(this.state.currentImage);
             });
+
             return filtered;
         }
+    }, {
+        key: 'filterSizes',
+        value: function filterSizes() {}
     }, {
         key: 'selectedRadio',
         value: function selectedRadio(e) {
@@ -27187,20 +27226,24 @@ var Dropdown = function (_Component) {
             if (name == 'selectedColor') {
                 this.filterColor(value);
             }
+            if (name == 'selectedCollar') {
+                this.filterCollar(value);
+            }
         }
     }, {
         key: 'render',
         value: function render() {
             var _this2 = this;
 
-            var updateFeaturedImage = this.props.updateFeaturedImage;
             var _state = this.state,
                 selectedFilters = _state.selectedFilters,
                 currentShirtObj = _state.currentShirtObj,
                 selectedFit = _state.selectedFit,
                 selectedSize = _state.selectedSize,
                 selectedColor = _state.selectedColor,
-                currentColors = _state.currentColors;
+                currentColors = _state.currentColors,
+                collars = _state.collars,
+                selectedCollar = _state.selectedCollar;
 
             return _react2.default.createElement(
                 'div',
@@ -27232,12 +27275,29 @@ var Dropdown = function (_Component) {
                     _react2.default.createElement(
                         'h4',
                         null,
+                        'Select Your Collar'
+                    ),
+                    collars.map(function (collar) {
+                        return _react2.default.createElement(
+                            'label',
+                            { key: collar },
+                            collar,
+                            _react2.default.createElement('input', { type: 'radio', name: 'selectedCollar', value: collar, checked: collar == selectedCollar, onChange: _this2.selectedRadio })
+                        );
+                    })
+                ),
+                _react2.default.createElement(
+                    'form',
+                    null,
+                    _react2.default.createElement(
+                        'h4',
+                        null,
                         'Select Your Color'
                     ),
                     currentColors.map(function (color) {
                         return _react2.default.createElement(
                             'label',
-                            null,
+                            { key: color },
                             color,
                             _react2.default.createElement('input', { type: 'radio', name: 'selectedColor', value: color, checked: color == selectedColor, onChange: _this2.selectedRadio })
                         );
@@ -27298,61 +27358,53 @@ var shirtObject = [{
     name: "Easy Care Slim Fit Long Sleeve Shirts",
     id: 400345,
     fit: "Slim",
-    sizes: ['s', 'l'],
-    colors: ['red', 'blue'],
-    collar: "regular"
+    size: 'xs',
+    colors: ['00', '60'], //00 , 60
+    collar: "Regular"
 }, {
-    name: "Shirt 2",
+    name: "Easy Care Slim Fit Long Sleeve Shirts",
     id: 400567,
     fit: "Slim",
-    sizes: ['xs', 's', 'm', 'l'],
-    colors: ['white', 'blue']
+    size: 's',
+    colors: ['00', '60'], //00 , 60
+    collar: "Button Down"
 }, {
-    name: "Shirt 3",
+    name: "Easy Care Regular Fit Long Sleeve Shirts",
+    id: 400123,
+    fit: "Regular",
+    size: 'm',
+    colors: ['00', '63'], //00 , 63
+    collar: "Regular"
+}, {
+    name: "Easy Care Regular Fit Long Sleeve Shirts",
     id: 400789,
     fit: "Regular",
-    sizes: ['s', 'm', 'l', 'xl'],
-    colors: ['red', 'green']
+    size: 'l',
+    colors: ['00', '63'], //00 , 63
+    collar: "Button Down"
 }];
 
 var colorObj = exports.colorObj = {
-    Regular: ['red', 'green'],
-    Slim: ['white', 'blue']
+    Regular: ['00', '63'],
+    Slim: ['00', '60']
 };
-
-var Shirts = {
-    Regular: {
-        sizes: ['xs', 's', 'm', 'l', 'xl', 'xxl', '3xl'],
-        colors: {
-            'white': '00',
-            'blue': '63'
-        },
-        regularCollar: {
-            name: "",
-            id: ""
-        },
-        buttonDownCollar: {
-            name: "",
-            id: ""
-        }
-    },
-    Slim: {
-        sizes: ['xs', 's', 'm', 'l', 'xl'],
-        colors: {
-            'white': '00',
-            'blue': '60'
-        },
-        regularCollar: {
-            name: "",
-            id: ""
-        },
-        buttonDownCollar: {
-            name: "",
-            id: ""
-        }
-    }
+var sizeObj = exports.sizeObj = {
+    Regular: ['xs', 's', 'm', 'l', 'xl', 'xxl', '3xl'],
+    Slim: ['xs', 's', 'm', 'l', 'xl']
 };
-
+var collarSizeObj = exports.collarSizeObj = {
+    xs: ['14.5', '15'],
+    s: ['15.5', '16.0', '16.5'],
+    m: ['16.0', '16.5', '17'],
+    l: ['17', '17.2', '17.5', '18.0'],
+    xl: ['17.5', '18.0', '18.5'],
+    xxl: ['19.0', '19.5'],
+    xxxl: ['19.5', '20']
+};
+var sleeveLengthObj = exports.sleeveLengthObj = {
+    Regular: {},
+    Slim: {}
+};
 exports.default = shirtObject;
 
 /***/ }),
