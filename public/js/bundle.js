@@ -27142,15 +27142,21 @@ var Dropdown = function (_Component) {
         _this.filterColor = _this.filterColor.bind(_this);
         _this.selectedRadio = _this.selectedRadio.bind(_this);
         _this.initalize = _this.initialize.bind(_this);
+        _this.handleSelects = _this.handleSelects.bind(_this);
         _this.state = {
             selectedFilters: [],
             currentShirtObj: _shirtObj2.default,
             currentColors: [],
+            currentSizes: [],
+            currentSleeveLengths: [],
+            currentCollarSizes: [],
             collars: ["Button Down", "Regular"],
             selectedCollar: '',
             selectedFit: '',
             selectedColor: '',
-            selectedSize: '',
+            selectedCollarSize: 'Select Your Collar Size',
+            selectedSize: 'Select Your Shirt Size',
+            selectedSleeve: 'Select Your Sleeve Length',
             currentImage: 'https://images.pexels.com/photos/104827/cat-pet-animal-domestic-104827.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb'
         };
         _this.baseState = _this.state;
@@ -27172,7 +27178,13 @@ var Dropdown = function (_Component) {
                 currentShirtObj: filtered,
                 selectedCollar: '',
                 selectedColor: '',
+                selectedSleeve: 'Select Your Sleeve Length',
+                selectedSize: 'Select Your Shirt Size',
+                selectedCollarSize: 'Select Your Collar Size',
                 currentColors: [],
+                currentCollarSizes: [],
+                currentSleeveLengths: [],
+                currentSizes: _shirtObj.sizeObj[value],
                 currentImage: 'https://images.pexels.com/photos/104827/cat-pet-animal-domestic-104827.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb'
             }, function () {
                 this.props.updateFeaturedImage(this.state.currentImage);
@@ -27231,6 +27243,21 @@ var Dropdown = function (_Component) {
             }
         }
     }, {
+        key: 'handleSelects',
+        value: function handleSelects(e) {
+            var name = e.target.name;
+            console.log(name, e.target.value);
+            this.setState(_defineProperty({}, name, e.target.value));
+            if (name === "selectedSize") {
+                this.setState({
+                    currentCollarSizes: _shirtObj.collarSizeObj[e.target.value],
+                    currentSleeveLengths: _shirtObj.sleeveLengthObj[this.state.selectedFit][e.target.value],
+                    selectedCollarSize: 'Select Your Collar Size',
+                    selectedSleeve: 'Select Your Sleeve Length'
+                });
+            }
+        }
+    }, {
         key: 'render',
         value: function render() {
             var _this2 = this;
@@ -27243,7 +27270,12 @@ var Dropdown = function (_Component) {
                 selectedColor = _state.selectedColor,
                 currentColors = _state.currentColors,
                 collars = _state.collars,
-                selectedCollar = _state.selectedCollar;
+                selectedCollar = _state.selectedCollar,
+                currentCollarSizes = _state.currentCollarSizes,
+                currentSizes = _state.currentSizes,
+                selectedSleeve = _state.selectedSleeve,
+                currentSleeveLengths = _state.currentSleeveLengths,
+                selectedCollarSize = _state.selectedCollarSize;
 
             return _react2.default.createElement(
                 'div',
@@ -27292,6 +27324,63 @@ var Dropdown = function (_Component) {
                     _react2.default.createElement(
                         'h4',
                         null,
+                        'Select Your Sizes'
+                    ),
+                    _react2.default.createElement(
+                        'select',
+                        { value: selectedSize, onChange: this.handleSelects, name: 'selectedSize' },
+                        _react2.default.createElement(
+                            'option',
+                            { value: selectedSize },
+                            selectedSize
+                        ),
+                        currentSizes.map(function (size) {
+                            return _react2.default.createElement(
+                                'option',
+                                { value: size, key: size },
+                                size
+                            );
+                        })
+                    ),
+                    _react2.default.createElement(
+                        'select',
+                        { value: selectedCollarSize, name: 'selectedCollarSize', onChange: this.handleSelects },
+                        _react2.default.createElement(
+                            'option',
+                            { value: selectedCollarSize },
+                            selectedCollarSize
+                        ),
+                        currentCollarSizes.map(function (collar) {
+                            return _react2.default.createElement(
+                                'option',
+                                { value: collar, key: collar },
+                                collar
+                            );
+                        })
+                    ),
+                    _react2.default.createElement(
+                        'select',
+                        { value: selectedSleeve, name: 'selectedSleeve', onChange: this.handleSelects },
+                        _react2.default.createElement(
+                            'option',
+                            { value: selectedSleeve },
+                            selectedSleeve
+                        ),
+                        currentSleeveLengths.map(function (sleeve) {
+                            return _react2.default.createElement(
+                                'option',
+                                { value: sleeve, key: sleeve },
+                                sleeve
+                            );
+                        })
+                    )
+                ),
+                _react2.default.createElement(
+                    'form',
+                    null,
+                    _react2.default.createElement(
+                        'h4',
+                        null,
                         'Select Your Color'
                     ),
                     currentColors.map(function (color) {
@@ -27321,26 +27410,6 @@ var Dropdown = function (_Component) {
 
     return Dropdown;
 }(_react.Component);
-/*currentShirtObj.map(shirt => (
-    <li>{shirt.id}</li>
-  ))
-  
-  <button onClick={updateFeaturedImage}>Update Image!</button>
-           <button onClick={this.filterSlim}>Filter Slim!</button>
-           <button onClick={this.filterSize}>Filter Size!</button>
-           <button onClick={this.filterColor}>Filter Color!</button>
-
-<form>
-                 <h4>Select Your Color</h4>
-                 {
-                     currentColors.map(color => (
-                         <label>{color}<input type="radio" name="selectedColor" value={color} checked={color == selectedColor} onChange={this.selectedRadio}></input></label>
-                     ))
-                 }
-               </form>
-  
-  */
-
 
 exports.default = Dropdown;
 
@@ -27402,8 +27471,22 @@ var collarSizeObj = exports.collarSizeObj = {
     xxxl: ['19.5', '20']
 };
 var sleeveLengthObj = exports.sleeveLengthObj = {
-    Regular: {},
-    Slim: {}
+    Regular: {
+        xs: ['32.0', '33.0', '34.0', '34.5', '36.0'],
+        s: ['32.0', '33.0', '34.0', '34.5', '36.0', '36.5'],
+        m: ['32.0', '33.0', '34.0', '34.5', '36.0', '36.5', '37.0', '37.5'],
+        l: ['33.0', '34.0', '34.5', '36.0', '36.5', '37.0', '37.5'],
+        xl: ['33.0', '34.0', '34.5', '36.0', '36.5', '37.0', '37.5'],
+        xxl: ['33.0', '34.0', '34.5', '36.0', '36.5', '37.0', '37.5', '38.0'],
+        xxxl: ['34.5', '36.0', '36.5', '37.0', '37.5', '38.0', '38.5']
+    },
+    Slim: {
+        xs: ['32.5', '33.5', '34.5', '35.5', '36.0'],
+        s: ['32.5', '33.5', '34.5', '35.5', '36.0', '37.0'],
+        m: ['32.5', '33.5', '34.5', '35.5', '36.0', '37.0', '37.5', '38.0'],
+        l: ['33.5', '34.5', '35.5', '36.0', '37.0', '37.5', '38.0'],
+        xl: ['34.5', '35.5', '36.0', '37.0', '37.5', '38.0']
+    }
 };
 exports.default = shirtObject;
 

@@ -1,21 +1,27 @@
 import React, {Component} from 'react';
-import shirtObject, {colorObj, Shirts} from './shirtObj';
+import shirtObject, {colorObj, sleeveLengthObj, collarSizeObj,sizeObj} from './shirtObj';
 export default class Dropdown extends Component{
     constructor(){
         super();
         this.filterFit = this.filterFit.bind(this);
         this.filterColor = this.filterColor.bind(this);
         this.selectedRadio = this.selectedRadio.bind(this);
-        this.initalize = this.initialize.bind(this)
+        this.initalize = this.initialize.bind(this);
+        this.handleSelects = this.handleSelects.bind(this);
         this.state = {
             selectedFilters: [],
             currentShirtObj : shirtObject,
             currentColors: [],
+            currentSizes: [],
+            currentSleeveLengths: [],
+            currentCollarSizes: [],
             collars :["Button Down", "Regular"],
             selectedCollar: '',
             selectedFit: '',
             selectedColor: '',
-            selectedSize: '',
+            selectedCollarSize: 'Select Your Collar Size',
+            selectedSize: 'Select Your Shirt Size',
+            selectedSleeve: 'Select Your Sleeve Length',
             currentImage: 'https://images.pexels.com/photos/104827/cat-pet-animal-domestic-104827.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb'
         }
         this.baseState = this.state;
@@ -32,7 +38,13 @@ export default class Dropdown extends Component{
             currentShirtObj : filtered,
             selectedCollar: '',
             selectedColor: '',
+            selectedSleeve: 'Select Your Sleeve Length',
+            selectedSize: 'Select Your Shirt Size',
+            selectedCollarSize: 'Select Your Collar Size',
             currentColors: [],
+            currentCollarSizes: [],
+            currentSleeveLengths: [],
+            currentSizes:sizeObj[value],
             currentImage: 'https://images.pexels.com/photos/104827/cat-pet-animal-domestic-104827.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb'
         }, function(){
             this.props.updateFeaturedImage(this.state.currentImage);
@@ -86,9 +98,23 @@ export default class Dropdown extends Component{
             this.filterCollar(value);
         }
     }
-
+    handleSelects(e){
+        var name = e.target.name;
+        console.log(name, e.target.value);
+        this.setState({
+            [name] : e.target.value
+        })
+        if(name === "selectedSize"){
+            this.setState({
+                currentCollarSizes: collarSizeObj[e.target.value],
+                currentSleeveLengths: sleeveLengthObj[this.state.selectedFit][e.target.value],
+                selectedCollarSize: 'Select Your Collar Size',
+                selectedSleeve: 'Select Your Sleeve Length'
+            })
+        }
+    }
     render(){
-        const {selectedFilters, currentShirtObj, selectedFit, selectedSize, selectedColor, currentColors, collars, selectedCollar} = this.state;
+        const {selectedFilters, currentShirtObj, selectedFit, selectedSize, selectedColor, currentColors, collars, selectedCollar, currentCollarSizes,currentSizes,selectedSleeve, currentSleeveLengths, selectedCollarSize} = this.state;
         return (
             <div>
                <form>
@@ -103,6 +129,33 @@ export default class Dropdown extends Component{
                        <label key={collar}>{collar}<input type="radio" name="selectedCollar" value={collar} checked={collar == selectedCollar} onChange={this.selectedRadio}></input></label>
                    ))
                }
+               </form>
+               <form>
+                   <h4>Select Your Sizes</h4>
+                   <select value={selectedSize} onChange={this.handleSelects} name="selectedSize">
+                       <option value={selectedSize}>{selectedSize}</option>
+                       {
+                         currentSizes.map(size => (
+                             <option value={size} key={size}>{size}</option>
+                         ))
+                       }
+                   </select>
+                   <select value={selectedCollarSize} name="selectedCollarSize" onChange={this.handleSelects}>
+                        <option value={selectedCollarSize}>{selectedCollarSize}</option>
+                        {
+                            currentCollarSizes.map(collar => (
+                                <option value={collar} key={collar}>{collar}</option>
+                            ))
+                        }
+                   </select>
+                   <select value={selectedSleeve} name="selectedSleeve" onChange={this.handleSelects}>
+                        <option value={selectedSleeve}>{selectedSleeve}</option>
+                        {
+                            currentSleeveLengths.map(sleeve => (
+                                <option value={sleeve} key={sleeve}>{sleeve}</option>
+                            ))
+                        }
+                    </select>
                </form>
                <form>
                <h4>Select Your Color</h4>
@@ -120,22 +173,3 @@ export default class Dropdown extends Component{
         )
     }
 }
-/*currentShirtObj.map(shirt => (
-    <li>{shirt.id}</li>
-  ))
-  
-  <button onClick={updateFeaturedImage}>Update Image!</button>
-           <button onClick={this.filterSlim}>Filter Slim!</button>
-           <button onClick={this.filterSize}>Filter Size!</button>
-           <button onClick={this.filterColor}>Filter Color!</button>
-
-<form>
-                 <h4>Select Your Color</h4>
-                 {
-                     currentColors.map(color => (
-                         <label>{color}<input type="radio" name="selectedColor" value={color} checked={color == selectedColor} onChange={this.selectedRadio}></input></label>
-                     ))
-                 }
-               </form>
-  
-  */
