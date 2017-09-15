@@ -27143,6 +27143,7 @@ var Dropdown = function (_Component) {
         _this.selectedRadio = _this.selectedRadio.bind(_this);
         _this.initalize = _this.initialize.bind(_this);
         _this.handleSelects = _this.handleSelects.bind(_this);
+        _this.filterSizes = _this.filterSizes.bind(_this);
         _this.state = {
             selectedFilters: [],
             currentShirtObj: _shirtObj2.default,
@@ -27224,7 +27225,14 @@ var Dropdown = function (_Component) {
         }
     }, {
         key: 'filterSizes',
-        value: function filterSizes() {}
+        value: function filterSizes(value) {
+            var filtered = this.state.currentShirtObj.filter(function (shirt) {
+                return shirt.size == value;
+            });
+            this.setState({
+                currentShirtObj: filtered
+            });
+        }
     }, {
         key: 'selectedRadio',
         value: function selectedRadio(e) {
@@ -27255,6 +27263,7 @@ var Dropdown = function (_Component) {
                     selectedCollarSize: 'Select Your Collar Size',
                     selectedSleeve: 'Select Your Sleeve Length'
                 });
+                this.filterSizes(e.target.value);
             }
         }
     }, {
@@ -27425,30 +27434,170 @@ Object.defineProperty(exports, "__esModule", {
 });
 var shirtObject = [{
     name: "Easy Care Slim Fit Long Sleeve Shirts",
-    id: 400345,
+    id: 407234,
     fit: "Slim",
     size: 'xs',
     colors: ['00', '60'], //00 , 60
     collar: "Regular"
 }, {
     name: "Easy Care Slim Fit Long Sleeve Shirts",
-    id: 400567,
+    id: 407250,
+    fit: "Slim",
+    size: 's',
+    colors: ['00', '60'], //00 , 60
+    collar: "Regular"
+}, {
+    name: "Easy Care Slim Fit Long Sleeve Shirts",
+    id: 407251,
+    fit: "Slim",
+    size: 'm',
+    colors: ['00', '60'], //00 , 60
+    collar: "Regular"
+}, {
+    name: "Easy Care Slim Fit Long Sleeve Shirts",
+    id: 407252,
+    fit: "Slim",
+    size: 'l',
+    colors: ['00', '60'], //00 , 60
+    collar: "Regular"
+}, {
+    name: "Easy Care Slim Fit Long Sleeve Shirts",
+    id: 407253,
+    fit: "Slim",
+    size: 'xl',
+    colors: ['00', '60'], //00 , 60
+    collar: "Regular"
+}, {
+    name: "Easy Care Slim Fit Long Sleeve Shirts",
+    id: 407260,
+    fit: "Slim",
+    size: 'xs',
+    colors: ['00', '60'], //00 , 60
+    collar: "Button Down"
+}, {
+    name: "Easy Care Slim Fit Long Sleeve Shirts",
+    id: 407261,
     fit: "Slim",
     size: 's',
     colors: ['00', '60'], //00 , 60
     collar: "Button Down"
 }, {
+    name: "Easy Care Slim Fit Long Sleeve Shirts",
+    id: 407262,
+    fit: "Slim",
+    size: 'm',
+    colors: ['00', '60'], //00 , 60
+    collar: "Button Down"
+}, {
+    name: "Easy Care Slim Fit Long Sleeve Shirts",
+    id: 407263,
+    fit: "Slim",
+    size: 'l',
+    colors: ['00', '60'], //00 , 60
+    collar: "Button Down"
+}, {
+    name: "Easy Care Slim Fit Long Sleeve Shirts",
+    id: 407264,
+    fit: "Slim",
+    size: 'xl',
+    colors: ['00', '60'], //00 , 60
+    collar: "Button Down"
+}, {
     name: "Easy Care Regular Fit Long Sleeve Shirts",
-    id: 400123,
+    id: 407233,
+    fit: "Regular",
+    size: 'xs',
+    colors: ['00', '63'], //00 , 63
+    collar: "Regular"
+}, {
+    name: "Easy Care Regular Fit Long Sleeve Shirts",
+    id: 407237,
+    fit: "Regular",
+    size: 's',
+    colors: ['00', '63'], //00 , 63
+    collar: "Regular"
+}, {
+    name: "Easy Care Regular Fit Long Sleeve Shirts",
+    id: 407238,
     fit: "Regular",
     size: 'm',
     colors: ['00', '63'], //00 , 63
     collar: "Regular"
 }, {
     name: "Easy Care Regular Fit Long Sleeve Shirts",
-    id: 400789,
+    id: 407239,
     fit: "Regular",
     size: 'l',
+    colors: ['00', '63'], //00 , 63
+    collar: "Regular"
+}, {
+    name: "Easy Care Regular Fit Long Sleeve Shirts",
+    id: 407240,
+    fit: "Regular",
+    size: 'xl',
+    colors: ['00', '63'], //00 , 63
+    collar: "Regular"
+}, {
+    name: "Easy Care Regular Fit Long Sleeve Shirts",
+    id: 407241,
+    fit: "Regular",
+    size: 'xxl',
+    colors: ['00', '63'], //00 , 63
+    collar: "Regular"
+}, {
+    name: "Easy Care Regular Fit Long Sleeve Shirts",
+    id: 407242,
+    fit: "Regular",
+    size: 'xxxl',
+    colors: ['00', '63'], //00 , 63
+    collar: "Regular"
+}, {
+    name: "Easy Care Regular Fit Long Sleeve Shirts",
+    id: 407243,
+    fit: "Regular",
+    size: 'xs',
+    colors: ['00', '63'], //00 , 63
+    collar: "Button Down"
+}, {
+    name: "Easy Care Regular Fit Long Sleeve Shirts",
+    id: 407244,
+    fit: "Regular",
+    size: 's',
+    colors: ['00', '63'], //00 , 63
+    collar: "Button Down"
+}, {
+    name: "Easy Care Regular Fit Long Sleeve Shirts",
+    id: 407245,
+    fit: "Regular",
+    size: 'm',
+    colors: ['00', '63'], //00 , 63
+    collar: "Button Down"
+}, {
+    name: "Easy Care Regular Fit Long Sleeve Shirts",
+    id: 407246,
+    fit: "Regular",
+    size: 'l',
+    colors: ['00', '63'], //00 , 63
+    collar: "Button Down"
+}, {
+    name: "Easy Care Regular Fit Long Sleeve Shirts",
+    id: 407247,
+    fit: "Regular",
+    size: 'xl',
+    colors: ['00', '63'], //00 , 63
+    collar: "Button Down"
+}, {
+    name: "Easy Care Regular Fit Long Sleeve Shirts",
+    id: 407248,
+    fit: "Regular",
+    size: 'xxl',
+    colors: ['00', '63'], //00 , 63
+    collar: "Button Down"
+}, {
+    name: "Easy Care Regular Fit Long Sleeve Shirts",
+    id: 407249,
+    fit: "Regular",
+    size: 'xxxl',
     colors: ['00', '63'], //00 , 63
     collar: "Button Down"
 }];

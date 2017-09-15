@@ -8,6 +8,7 @@ export default class Dropdown extends Component{
         this.selectedRadio = this.selectedRadio.bind(this);
         this.initalize = this.initialize.bind(this);
         this.handleSelects = this.handleSelects.bind(this);
+        this.filterSizes = this.filterSizes.bind(this);
         this.state = {
             selectedFilters: [],
             currentShirtObj : shirtObject,
@@ -78,8 +79,13 @@ export default class Dropdown extends Component{
         
         return filtered;
     }
-    filterSizes(){
-
+    filterSizes(value){
+        var filtered = this.state.currentShirtObj.filter(function(shirt){
+            return shirt.size == value
+        })
+        this.setState({
+            currentShirtObj : filtered
+        })
     }
     selectedRadio(e){
         var clicked = e.target;
@@ -111,6 +117,7 @@ export default class Dropdown extends Component{
                 selectedCollarSize: 'Select Your Collar Size',
                 selectedSleeve: 'Select Your Sleeve Length'
             })
+            this.filterSizes(e.target.value);
         }
     }
     render(){
