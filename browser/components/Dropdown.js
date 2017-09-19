@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Cta from './CTA'
 import Collapsible from 'react-collapsible';
 import Accordion from 'react-responsive-accordion';
 import shirtObject, {colorObj, sleeveLengthObj, collarSizeObj,sizeObj} from './shirtObj';
@@ -113,9 +114,10 @@ export default class Dropdown extends Component{
         return filtered;
     }
     selectedRadio(e){
-        var clicked = e.target;
-        var name = clicked.name;
-        var value = clicked.value;
+        console.log(e.currentTarget);
+        var clicked = e.currentTarget;
+        var name = clicked.getAttribute('name');
+        var value = clicked.getAttribute('value');
         this.setState({
             [name]: value
         })
@@ -141,6 +143,7 @@ export default class Dropdown extends Component{
     }
     render(){
         const {isChecked, selectedFilters, currentShirtObj, selectedFit, selectedSize, selectedColor, currentColors, collars, selectedCollar, isOpen, currentCollarSizes,currentSizes,selectedSleeve, currentSleeveLengths, selectedCollarSize} = this.state;
+        const cta = this.props.cta;
         return (
             <div>
                <div className='tab'>
@@ -149,8 +152,17 @@ export default class Dropdown extends Component{
                  <label className={`dropdownTitle ${isChecked}`} htmlFor="tab-one">Select Your Fit</label>
                  <div className="tab-content">
                  <div className="selectContainer">
-                 <label>Slim <input type="radio" name="selectedFit" value="Slim" checked={"Slim" === selectedFit} onChange={this.selectedRadio}/></label>
-                 <label>Regular <input type="radio" name="selectedFit" value="Regular" checked={"Regular" === selectedFit} onChange={this.selectedRadio}/></label>
+                 <div className="squareSelect span12">
+                   <div className="selectOption span6" name="selectedFit" value="Slim" onClick={this.selectedRadio}>
+                     <h4>Regular Fit</h4>
+                     <p>More room in arm, shoulder and chest</p>
+                   </div>
+                   <div className="selectOption span6 col" name="selectedFit" value="Regular" onClick={this.selectedRadio}>
+                    <h4>Slim Fit</h4>
+                    <p>Sharper Silhouette + stretchy material</p>
+                   </div>
+                 </div>
+                 <div className="clear"></div>
                  </div>
                  </div>
                </form>
@@ -158,14 +170,18 @@ export default class Dropdown extends Component{
                <div className='tab'>
                <form>
                   <input id="tab-two" type="checkbox" className="accordionInput" name="collarAccordion" checked={"collarAccordion" === isOpen} onChange={this.selectedAccoridon}/>
-                  <label className={`dropdownTitle ${isChecked}`} htmlFor="tab-two">Select Your Collar</label>
+                  <label className={`dropdownTitle {${isChecked}}`} htmlFor="tab-two">Select Your Collar</label>
                   <div className="tab-content">
                   <div className="selectContainer">
-                 {
-                   collars.map(collar => (
-                       <label key={collar}>{collar}<input type="radio" name="selectedCollar" value={collar} checked={collar == selectedCollar} onChange={this.selectedRadio}></input></label>
-                   ))
-                 }
+                    <div className="squareSelect span12">
+                    <div className="selectOption span6" name="selectedCollar" value="Regular" onClick={this.selectedRadio}>
+                      <h4>Regular Collar</h4>
+                    </div>
+                    <div className="selectOption span6 col" name="selectedCollar" value="Button Down" onClick={this.selectedRadio}>
+                     <h4>Button Down Collar</h4>
+                    </div>
+                  </div>
+                  <div className="clear"></div>
                  </div>
                  </div>
                </form>
@@ -219,14 +235,15 @@ export default class Dropdown extends Component{
                  </div>
                </form>
                </div>
-               <h4 style={{textDecorationLine:'underline'}}>Results</h4>
-               {currentShirtObj.map(shirt => (
-                 <li key={shirt.id}>{shirt.id}</li>
-               ))}
            </div>
         )
     }
 }
 /*
-
-               */
+<label>Slim <input type="radio" name="selectedFit" value="Slim" checked={"Slim" === selectedFit} onChange={this.selectedRadio}/></label>
+<label>Regular <input type="radio" name="selectedFit" value="Regular" checked={"Regular" === selectedFit} onChange={this.selectedRadio}/></label>
+<h4 style={{textDecorationLine:'underline'}}>Results</h4>
+{currentShirtObj.map(shirt => (
+    <li key={shirt.id}>{shirt.id}</li>
+))}
+ */
