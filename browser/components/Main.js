@@ -7,7 +7,7 @@ export default class Main extends Component{
     constructor(){
         super();
         this.state = {
-            imageUrl: "https://images.pexels.com/photos/104827/cat-pet-animal-domestic-104827.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb",
+            imageUrl: "https://uniqlo.scene7.com/is/image/UNIQLO/goods_63_401362?$detail$",
             cta: ""
         }
         this.updateFeaturedImage = this.updateFeaturedImage.bind(this);
@@ -27,11 +27,11 @@ export default class Main extends Component{
         const {imageUrl,cta} = this.state;
         return (
             <div className='wrapper'>
-              <div className='span12'>
-                <div className='span8'>
+              <div className='span12 shirtOrder'>
+                <div className='span6 featuredImgSxn'>
                   <FeaturedImage imageUrl={imageUrl}/>
                 </div>
-                <div className='span4 col'>
+                <div className='span6 dropdownSection col'>
                   <Dropdown updateCta={this.updateCta} updateFeaturedImage={this.updateFeaturedImage}/>
                 </div>  
               </div>
@@ -40,6 +40,7 @@ export default class Main extends Component{
                    <Cta url={cta}/>
                  </div>
               </div>
+              <div className='clear'></div>
             </div>
         )
     }

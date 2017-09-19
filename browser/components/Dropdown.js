@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import Collapsible from 'react-collapsible';
+import Accordion from 'react-responsive-accordion';
 import shirtObject, {colorObj, sleeveLengthObj, collarSizeObj,sizeObj} from './shirtObj';
 export default class Dropdown extends Component{
     constructor(){
@@ -9,11 +11,15 @@ export default class Dropdown extends Component{
         this.initalize = this.initialize.bind(this);
         this.handleSelects = this.handleSelects.bind(this);
         this.filterSizes = this.filterSizes.bind(this);
+        this.buildUrl = this.buildUrl.bind(this);
+        this.selectedAccoridon = this.selectedAccoridon.bind(this);
         this.state = {
             selectedFilters: [],
             currentShirtObj : shirtObject,
             currentColors: [],
             currentSizes: [],
+            isChecked:'unchecked',
+            isOpen: 'fitAccordion',
             currentSleeveLengths: [],
             currentCollarSizes: [],
             collars :["Button Down", "Regular"],
@@ -30,7 +36,26 @@ export default class Dropdown extends Component{
     initialize(){
         this.setState(this.baseState)
     }
-
+    selectedAccoridon(e) {
+        if(e.target.name === this.state.isOpen){
+            this.setState({
+                isOpen: ''
+            })
+        }
+        else {
+            this.setState({
+                isOpen: e.target.name
+            })
+        }
+    }
+    buildUrl(){
+        var collarSize = this.state.selectedCollarSize.split('.').join('');
+        var sleeveLength = this.state.selectedSleeve.split('.').join('');
+        var name = this.state.currentShirtObj[0].name;
+        var id = this.state.currentShirtObj[0].id;
+        var url = `https://uniqlo.com/us/en/product/${name}-${id}col${this.state.selectedColor}nki${collarSize}${sleeveLength}.html`;
+        this.props.updateCta(url);
+    }
     filterFit(value){
         var filtered = shirtObject.filter(function(shirt){
             return shirt.fit == value;
@@ -42,11 +67,11 @@ export default class Dropdown extends Component{
             selectedSleeve: 'Select Your Sleeve Length',
             selectedSize: 'Select Your Shirt Size',
             selectedCollarSize: 'Select Your Collar Size',
-            currentColors: [],
+            currentColors: colorObj[value],
             currentCollarSizes: [],
             currentSleeveLengths: [],
             currentSizes:sizeObj[value],
-            currentImage: 'https://images.pexels.com/photos/104827/cat-pet-animal-domestic-104827.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb'
+            currentImage: 'https://uniqlo.scene7.com/is/image/UNIQLO/goods_63_401362?$detail$'
         }, function(){
             this.props.updateFeaturedImage(this.state.currentImage);
         })
@@ -59,33 +84,33 @@ export default class Dropdown extends Component{
         })
         this.setState({
             selectedCollar: value,
-            currentShirtObj: filtered,
-            currentColors: colorObj[this.state.selectedFit]
+            currentShirtObj: filtered
         })
         return filtered;
     }
     filterColor(value){
-        var base = this.filterCollar(this.state.selectedCollar);
-        var filtered = base.filter(function(shirt){
-            return shirt.colors.includes(value)
-        });
         this.setState({
-            currentShirtObj : filtered,
             selectedColor: value,
             currentImage: 'http://builtwithreact.io/img/share-logo.jpg'
         },function(){
             this.props.updateFeaturedImage(this.state.currentImage);
+            this.buildUrl();
         });
-        
-        return filtered;
     }
     filterSizes(value){
-        var filtered = this.state.currentShirtObj.filter(function(shirt){
-            return shirt.size == value
-        })
+        var base = this.filterCollar(this.state.selectedCollar);
+        var filtered = base.filter(function(shirt){
+            return shirt.size == value;
+        });
         this.setState({
-            currentShirtObj : filtered
+            currentShirtObj : filtered,
+            currentCollarSizes: collarSizeObj[value],
+            currentSleeveLengths: sleeveLengthObj[this.state.selectedFit][value],
+            selectedCollarSize: 'Select Your Collar Size',
+            selectedSleeve: 'Select Your Sleeve Length',
+            selectedSize:value
         })
+        return filtered;
     }
     selectedRadio(e){
         var clicked = e.target;
@@ -106,39 +131,51 @@ export default class Dropdown extends Component{
     }
     handleSelects(e){
         var name = e.target.name;
-        console.log(name, e.target.value);
+        var value = e.target.value;
         this.setState({
-            [name] : e.target.value
+            [name] : value
         })
         if(name === "selectedSize"){
-            this.setState({
-                currentCollarSizes: collarSizeObj[e.target.value],
-                currentSleeveLengths: sleeveLengthObj[this.state.selectedFit][e.target.value],
-                selectedCollarSize: 'Select Your Collar Size',
-                selectedSleeve: 'Select Your Sleeve Length'
-            })
-            this.filterSizes(e.target.value);
+            this.filterSizes(value);
         }
     }
     render(){
-        const {selectedFilters, currentShirtObj, selectedFit, selectedSize, selectedColor, currentColors, collars, selectedCollar, currentCollarSizes,currentSizes,selectedSleeve, currentSleeveLengths, selectedCollarSize} = this.state;
+        const {isChecked, selectedFilters, currentShirtObj, selectedFit, selectedSize, selectedColor, currentColors, collars, selectedCollar, isOpen, currentCollarSizes,currentSizes,selectedSleeve, currentSleeveLengths, selectedCollarSize} = this.state;
         return (
             <div>
+               <div className='tab'>
                <form>
-                 <h4>Select Your Fit</h4>
+                 <input id="tab-one" type="checkbox" name="fitAccordion" className="accordionInput" checked={"fitAccordion" === isOpen} onChange={this.selectedAccoridon}/>
+                 <label className={`dropdownTitle ${isChecked}`} htmlFor="tab-one">Select Your Fit</label>
+                 <div className="tab-content">
+                 <div className="selectContainer">
                  <label>Slim <input type="radio" name="selectedFit" value="Slim" checked={"Slim" === selectedFit} onChange={this.selectedRadio}/></label>
                  <label>Regular <input type="radio" name="selectedFit" value="Regular" checked={"Regular" === selectedFit} onChange={this.selectedRadio}/></label>
+                 </div>
+                 </div>
                </form>
+               </div>
+               <div className='tab'>
                <form>
-               <h4>Select Your Collar</h4>
-               {
+                  <input id="tab-two" type="checkbox" className="accordionInput" name="collarAccordion" checked={"collarAccordion" === isOpen} onChange={this.selectedAccoridon}/>
+                  <label className={`dropdownTitle ${isChecked}`} htmlFor="tab-two">Select Your Collar</label>
+                  <div className="tab-content">
+                  <div className="selectContainer">
+                 {
                    collars.map(collar => (
                        <label key={collar}>{collar}<input type="radio" name="selectedCollar" value={collar} checked={collar == selectedCollar} onChange={this.selectedRadio}></input></label>
                    ))
-               }
+                 }
+                 </div>
+                 </div>
                </form>
+               </div>
+               <div className='tab'>
                <form>
-                   <h4>Select Your Sizes</h4>
+                   <input id="tab-three" type="checkbox" className="accordionInput" name="sizeAccordion" checked={"sizeAccordion" === isOpen} onChange={this.selectedAccoridon}/>
+                   <label className={`dropdownTitle ${isChecked}`} htmlFor="tab-three">Select Your Size</label>
+                   <div className="tab-content">
+                   <div className="selectContainer">
                    <select value={selectedSize} onChange={this.handleSelects} name="selectedSize">
                        <option value={selectedSize}>{selectedSize}</option>
                        {
@@ -163,15 +200,25 @@ export default class Dropdown extends Component{
                             ))
                         }
                     </select>
+                    </div>
+                    </div>
                </form>
+               </div>
+               <div className='tab'>
                <form>
-               <h4>Select Your Color</h4>
-               {
-                   currentColors.map(color => (
+                 <input id="tab-four" type="checkbox" className="accordionInput" name="colorAccordion" checked={"colorAccordion" === isOpen} onChange={this.selectedAccoridon}/>               
+                 <label className={`dropdownTitle ${isChecked}`} htmlFor="tab-four">Select Your Color</label>
+                 <div className="tab-content">
+                 <div className="selectContainer">
+                   {
+                     currentColors.map(color => (
                        <label key={color}>{color}<input type="radio" name="selectedColor" value={color} checked={color == selectedColor} onChange={this.selectedRadio}></input></label>
-                   ))
-               }
+                     ))
+                   }
+                 </div>  
+                 </div>
                </form>
+               </div>
                <h4 style={{textDecorationLine:'underline'}}>Results</h4>
                {currentShirtObj.map(shirt => (
                  <li key={shirt.id}>{shirt.id}</li>
@@ -180,3 +227,6 @@ export default class Dropdown extends Component{
         )
     }
 }
+/*
+
+               */
