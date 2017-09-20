@@ -57,9 +57,18 @@ img {
         float:right;
         opacity: .45;
         vertical-align: middle;
+        .semiEdit {
+            font-size: 14px;
+            background-color: grey;
+            color: white;
+            padding: 3px 6px;
+            border-radius: 3px;
+            margin-left: 6px;
+            vertical-align: middle;
+        }
     }
     input:checked.accordionInput ~ .semi-tab-content {
-        max-height: 15em;
+        max-height: 20em;
     }
     .accordionInput {
         position: absolute;
@@ -70,7 +79,7 @@ img {
         position: relative;
         display: block;
         padding: 0 0 0 .5em;
-        color:#004072;
+        color:black;
         border-top:1px solid lightgrey;
         border-bottom: 1px solid lightgrey;
         font-size:18px;
@@ -79,14 +88,14 @@ img {
         cursor: pointer;
     }
     .unchecked:before {
-        content:'\f096';
+        content:'';
         margin-right:.5em;
         color:black;
         vertical-align: middle;
         font-family:FontAwesome;
     }
     .checked:before {
-        content:'\f046';
+        content:'\f00c';
         margin-right:.5em;
         vertical-align: middle;
         font-family:FontAwesome;
@@ -100,11 +109,16 @@ img {
             //padding:3em 0;
             padding: 2em 2.5em;
             box-sizing: border-box;
+            .sizeTitle {
+                font-weight:lighter;
+                font-size:12px;
+                margin:0;
+            }
         }
     }
     select.semiSelect {
         border: none;
-        width: 32.66667%;
+        width: 100%;
         height: 3em;
         font-size: 16px;
         text-align: center;
@@ -119,6 +133,9 @@ img {
         left: 0;
         padding: 0;
         position: initial;
+        &:disabled {
+            color:graytext!important;
+        }
     }
     .nice-select{
         display: none!important;
@@ -134,31 +151,38 @@ img {
         &:hover {
             cursor: pointer;
             .selectOption {
-                opacity:.45;
+                opacity:.35;
+                transition: all .075s linear;
             }
         }
 
         .selectOption {
             text-align: center;
-            border:1px solid black;
+            border:1px solid lightgrey;
             box-sizing: border-box;
             padding:14px 24px;
+            transition: all .075s linear;
             .selectedTitle {
                 font-size:18px;
                 text-decoration: underline;
             }
             &:hover {
                 opacity:1 !important;
-                border-color:rebeccapurple;
+                border:1px solid black;
+                transition: all .075s linear;
                 h4, p {
-                    color:rebeccapurple;
+                    color:black;
+                    transition: all .075s linear;
                 }
             }
             h4 {
                 margin:0;
+                font-size:16px;
             }
             p {
                 margin-bottom:0;
+                margin-top:1em;
+                font-size:16px;
             }
             .optionDescript {
                 margin:0;
@@ -168,27 +192,31 @@ img {
         }
         .selected {
             opacity:1 !important;
-            border-color:rebeccapurple;
+            border:1px solid black;
+            transition: all .075s linear;
             h4, p {
-                color:rebeccapurple;
+                color:black;
+                transition: all .075s linear;
             }
         }
         .deselected {
-            opacity: .45;
+            opacity: .35;
         }
     }
     .productInfo {
-        font-size:24px;
+        font-size:21px;
+        font-weight:bold;
+        margin:1.5em 0;
     }
     .semi-cta {
         margin: 0 auto;
         width: 60%;
-        background-color: #004072;
+        background-color: black;
         text-align: center;
         position: relative;
         transition: all .075s linear;
         &.semiHide {
-            background-color:transparentize(#004072,.75);
+            background-color:transparentize(black,.75);
             transition: all .075s linear;
             &:after {
                 content: '';
@@ -228,5 +256,48 @@ img {
             height: 650px;
             overflow: scroll;
         }
+    }
+}
+
+@media screen and (max-width: 600px){
+    .span12, .span6, .span4, #semiOrderShirts select.semiSelect {
+        width:100%;
+    }
+    .col {
+        margin-left:0;
+    }
+    input:checked.accordionInput ~ .semi-tab-content {
+        max-height: 34em !important;
+    }
+    #semiOrderShirts .squareSelect .selectOption, #semiOrderShirts select.semiSelect {
+        margin-bottom:1em;
+    }
+    #semiOrderShirts .semi-cta {
+        width:85% !important;
+    }
+    #semiOrderShirts .wrapper {
+        max-width:350px;
+    }
+    #semiOrderShirts .productInfo {
+        font-size:18px;
+        span {
+            font-size:18px;
+        }
+    }
+    #semiOrderShirts .selectedStatus {
+        position: relative;
+        color: black;
+        float: none;
+        display: block;
+        bottom: 10px;
+        opacity: .45;
+        font-size: 12px;
+        /* vertical-align: -webkit-baseline-middle; */
+    }
+    #semiOrderShirts .selectedStatus .semiEdit {
+        font-size:12px;
+    }
+    #semiOrderShirts .semiTab {
+        margin-bottom:1em;
     }
 }

@@ -89,7 +89,7 @@ export default class Dropdown extends Component{
         })
         return filtered;
     }
-    filterCollar(value){
+    filterCollar(value, color = "60"){
         var base = this.filterFit(this.state.selectedFit);
         var filtered = base.filter(function(shirt){
             return shirt.collar == value;
@@ -99,7 +99,7 @@ export default class Dropdown extends Component{
             currentShirtObj: filtered,
             isOpen: 'colorAccordion',
             isChecked: value + ' ' + this.state.isChecked,
-            currentImage:imageObj["60"][value]
+            currentImage:imageObj[color][value]
         }, function(){
             this.props.updateFeaturedImage(this.state.currentImage);
         })
@@ -111,6 +111,12 @@ export default class Dropdown extends Component{
             selectedColor: value,
             currentImage: 'http://builtwithreact.io/img/share-logo.jpg',
             isChecked: value + ' ' + this.state.isChecked,
+            selectedSizeCrumb:'',
+            selectedSleeveCrumb:'',
+            selectedCollarSizeCrumb:'',
+            selectedSleeve: 'Sleeve Length',
+            selectedSize: 'Body Size',
+            selectedCollarSize: 'Neck Size',
             isOpen: 'sizeAccordion',
             currentImage:imageObj[value][this.state.selectedCollar]
         },function(){
@@ -118,18 +124,21 @@ export default class Dropdown extends Component{
         });
     }
     filterSizes(value){
-        var base = this.filterCollar(this.state.selectedCollar);
+        var color = this.state.selectedColor;
+        var base = this.filterCollar(this.state.selectedCollar, color);
         var filtered = base.filter(function(shirt){
             return shirt.size == value;
         });
         this.setState({
             currentShirtObj : filtered,
+            selectedColor: color,
             currentCollarSizes: collarSizeObj[value],
             currentSleeveLengths: sleeveLengthObj[this.state.selectedFit][value],
             selectedCollarSize: 'Neck Size',
             selectedSleeve: 'Sleeve Length',
-            selectedSizeCrumb: value,
+            selectedSizeCrumb: 'Size: ' + value,
             selectedSize:value,
+            isOpen: 'sizeAccordion',
             isChecked: value + this.state.isChecked
         })
         return filtered;
@@ -156,17 +165,25 @@ export default class Dropdown extends Component{
         var name = e.target.name;
         var value = e.target.value;
         var crumb = e.target.name +'Crumb';
+        var prefix;
+        if(name == 'selectedCollarSize'){
+            prefix = "Neck: "
+        }
+        else {
+            prefix = "Sleeve: "
+        }
         this.setState({
             [name] : value,
             isChecked: value + this.state.isChecked,
-            [crumb]: value
+            [crumb]: prefix + value + ' in.'
+        }, function(){
+            if(name === "selectedSize"){
+                this.filterSizes(value);
+            }
+            if(name === 'selectedSleeve'){
+                this.buildUrl();
+            }
         })
-        if(name === "selectedSize"){
-            this.filterSizes(value);
-        }
-        if(name === 'selectedSleeve'){
-            this.buildUrl();
-        }
     }
     render(){
         const {cta,currentBlueSwatch,selectedSizeCrumb, selectedCollarSizeCrumb, selectedSleeveCrumb, isChecked, selectedFilters, currentShirtObj, selectedFit, selectedSize, selectedColor, currentColors, collars, selectedCollar, isOpen, currentCollarSizes,currentSizes,selectedSleeve, currentSleeveLengths, selectedCollarSize} = this.state;
@@ -175,7 +192,7 @@ export default class Dropdown extends Component{
                <div className='semiTab'>
                <form className="semiForm">
                  <input id="tab-one" type="checkbox" name="fitAccordion" className="accordionInput" checked={"fitAccordion" === isOpen} onChange={this.selectedAccoridon}/>
-                 <label className={"dropdownTitle" + (isChecked.includes(selectedFit) && selectedFit.length > 0 ? " checked" : " unchecked")} htmlFor="tab-one">Select Your Fit <span className="selectedStatus">{selectedFit}</span></label>
+                 <label className={"dropdownTitle" + (isChecked.includes(selectedFit) && selectedFit.length > 0 ? " checked" : " unchecked")} htmlFor="tab-one">1. Select Your Fit <span className="selectedStatus">{selectedFit} {(isChecked.includes(selectedFit) && selectedFit.length > 0 ? (<span className='semiEdit'> Edit</span>) : "")}</span></label>
                  <div className="semi-tab-content">
                  <div className="selectContainer">
                  <div className="squareSelect span12">
@@ -196,7 +213,7 @@ export default class Dropdown extends Component{
                <div className={'semiTab' + (isChecked.includes(selectedFit) && selectedFit.length > 0 ? "" : " semiHide")}>
                <form className="semiForm">
                   <input id="tab-two" type="checkbox" className="accordionInput" name="collarAccordion" checked={"collarAccordion" === isOpen} onChange={this.selectedAccoridon}/>
-                  <label className={"dropdownTitle" + (isChecked.includes(selectedCollar) && selectedCollar.length > 0 ? " checked" : " unchecked")} htmlFor="tab-two">Select Your Collar <span className="selectedStatus">{selectedCollar}</span></label>
+                  <label className={"dropdownTitle" + (isChecked.includes(selectedCollar) && selectedCollar.length > 0 ? " checked" : " unchecked")} htmlFor="tab-two">2. Select Your Collar <span className="selectedStatus">{selectedCollar} {(isChecked.includes(selectedCollar) && selectedCollar.length > 0 ? (<span className='semiEdit'> Edit</span>) : "")}</span></label>
                   <div className="semi-tab-content">
                   <div className="selectContainer">
                     <div className="squareSelect span12">
@@ -219,7 +236,7 @@ export default class Dropdown extends Component{
                <div className={'semiTab' + (isChecked.includes(selectedCollar) && selectedCollar.length > 0? "" : " semiHide")}>
                <form className="semiForm">
                  <input id="tab-four" type="checkbox" className="accordionInput" name="colorAccordion" checked={"colorAccordion" === isOpen} onChange={this.selectedAccoridon}/>               
-                 <label className={"dropdownTitle" + (isChecked.includes(selectedColor) && selectedColor.length > 0 ? " checked" : " unchecked")} htmlFor="tab-four">Select Your Color <span className="selectedStatus">{selectedColor === '' ? '' : selectedColor === '00' ? 'White' : "Blue"}</span></label>
+                 <label className={"dropdownTitle" + (isChecked.includes(selectedColor) && selectedColor.length > 0 ? " checked" : " unchecked")} htmlFor="tab-four">3. Select Your Color <span className="selectedStatus">{selectedColor === '' ? '' : selectedColor === '00' ? 'White' : "Blue"} {(isChecked.includes(selectedColor) && selectedColor.length > 0 ? (<span className='semiEdit'> Edit</span>) : "")}</span></label>
                  <div className="semi-tab-content">
                  <div className="selectContainer">
                     <div className="squareSelect span12">
@@ -240,9 +257,11 @@ export default class Dropdown extends Component{
                <div className={'semiTab' + (isChecked.includes(selectedColor) && selectedColor.length > 0 ? "" : " semiHide")}>
                <form className="semiForm">
                    <input id="tab-three" type="checkbox" className="accordionInput" name="sizeAccordion" checked={"sizeAccordion" === isOpen} onChange={this.selectedAccoridon}/>
-                   <label className={"dropdownTitle" + (isChecked.includes(selectedSleeve) && selectedSleeve.length > 0 ? " checked" : " unchecked")} htmlFor="tab-three">Select Your Size <span className="selectedStatus">{selectedSizeCrumb} {selectedCollarSizeCrumb} {selectedSleeveCrumb}</span></label>
+                   <label className={"dropdownTitle" + (isChecked.includes(selectedSleeve) && selectedSleeve.length > 0 ? " checked" : " unchecked")} htmlFor="tab-three">4. Select Your Size <span className="selectedStatus">{selectedSizeCrumb} {selectedCollarSizeCrumb} {selectedSleeveCrumb}</span></label>
                    <div className="semi-tab-content">
                    <div className="selectContainer">
+                   <div className="span4">
+                   <h4 className="sizeTitle">Body Size</h4>
                    <select value={selectedSize} onChange={this.handleSelects} name="selectedSize" className="semiSelect">
                        <option value={selectedSize}>{selectedSize}</option>
                        {
@@ -251,7 +270,10 @@ export default class Dropdown extends Component{
                          ))
                        }
                    </select>
-                   <select className="col semiSelect" value={selectedCollarSize} name="selectedCollarSize" onChange={this.handleSelects}>
+                   </div>
+                   <div className="span4 col">
+                   <h4 className="sizeTitle">Neck Size</h4>
+                   <select className="col semiSelect"  disabled={isChecked.includes(selectedSize) && selectedSize.length > 0 ? false : true}  value={selectedCollarSize} name="selectedCollarSize" onChange={this.handleSelects}>
                         <option value={selectedCollarSize}>{selectedCollarSize}</option>
                         {
                             currentCollarSizes.map(collar => (
@@ -259,7 +281,10 @@ export default class Dropdown extends Component{
                             ))
                         }
                    </select>
-                   <select className="col semiSelect" value={selectedSleeve} name="selectedSleeve" onChange={this.handleSelects}>
+                   </div>
+                   <div className="span4 col">
+                   <h4 className="sizeTitle">Sleeve Length</h4>
+                   <select className="col semiSelect" disabled={isChecked.includes(selectedSize) && selectedSize.length > 0 ? false : true} value={selectedSleeve} name="selectedSleeve" onChange={this.handleSelects}>
                         <option value={selectedSleeve}>{selectedSleeve}</option>
                         {
                             currentSleeveLengths.map(sleeve => (
@@ -267,6 +292,7 @@ export default class Dropdown extends Component{
                             ))
                         }
                     </select>
+                    </div>
                     <div className="clear"></div>
                     </div>
                     </div>

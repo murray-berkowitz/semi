@@ -21,7 +21,7 @@ export default class Main extends Component{
         return (
             <div className='wrapper'>
               <div className='span6'>
-              <h4 className="productInfo">MEN EASY CARE COMFORT LONG SLEEVE SHIRT <span style={{float:'right'}}>$29.90</span></h4>
+                <h4 className="productInfo">MEN EASY CARE COMFORT LONG SLEEVE SHIRT <span style={{float:'right',fontSize:'24px'}}>$29.90</span></h4>
               </div>
               <div className='span12 shirtOrder'>
                 <div className='span6 featuredImgSxn'>

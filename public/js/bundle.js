@@ -11672,7 +11672,7 @@ var Cta = function (_Component) {
                 _react2.default.createElement(
                     "a",
                     { className: "semia", href: url },
-                    "View Your Selection!"
+                    "Confirm Your Order!"
                 )
             );
         }
@@ -24175,7 +24175,7 @@ var Main = function (_Component) {
                         'MEN EASY CARE COMFORT LONG SLEEVE SHIRT ',
                         _react2.default.createElement(
                             'span',
-                            { style: { float: 'right' } },
+                            { style: { float: 'right', fontSize: '24px' } },
                             '$29.90'
                         )
                     )
@@ -27581,6 +27581,8 @@ var Dropdown = function (_Component) {
     }, {
         key: 'filterCollar',
         value: function filterCollar(value) {
+            var color = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "60";
+
             var base = this.filterFit(this.state.selectedFit);
             var filtered = base.filter(function (shirt) {
                 return shirt.collar == value;
@@ -27590,7 +27592,7 @@ var Dropdown = function (_Component) {
                 currentShirtObj: filtered,
                 isOpen: 'colorAccordion',
                 isChecked: value + ' ' + this.state.isChecked,
-                currentImage: _shirtObj.imageObj["60"][value]
+                currentImage: _shirtObj.imageObj[color][value]
             }, function () {
                 this.props.updateFeaturedImage(this.state.currentImage);
             });
@@ -27604,6 +27606,12 @@ var Dropdown = function (_Component) {
                 selectedColor: value,
                 currentImage: 'http://builtwithreact.io/img/share-logo.jpg',
                 isChecked: value + ' ' + this.state.isChecked,
+                selectedSizeCrumb: '',
+                selectedSleeveCrumb: '',
+                selectedCollarSizeCrumb: '',
+                selectedSleeve: 'Sleeve Length',
+                selectedSize: 'Body Size',
+                selectedCollarSize: 'Neck Size',
                 isOpen: 'sizeAccordion'
             }, 'currentImage', _shirtObj.imageObj[value][this.state.selectedCollar]), function () {
                 this.props.updateFeaturedImage(this.state.currentImage);
@@ -27612,18 +27620,21 @@ var Dropdown = function (_Component) {
     }, {
         key: 'filterSizes',
         value: function filterSizes(value) {
-            var base = this.filterCollar(this.state.selectedCollar);
+            var color = this.state.selectedColor;
+            var base = this.filterCollar(this.state.selectedCollar, color);
             var filtered = base.filter(function (shirt) {
                 return shirt.size == value;
             });
             this.setState({
                 currentShirtObj: filtered,
+                selectedColor: color,
                 currentCollarSizes: _shirtObj.collarSizeObj[value],
                 currentSleeveLengths: _shirtObj.sleeveLengthObj[this.state.selectedFit][value],
                 selectedCollarSize: 'Neck Size',
                 selectedSleeve: 'Sleeve Length',
-                selectedSizeCrumb: value,
+                selectedSizeCrumb: 'Size: ' + value,
                 selectedSize: value,
+                isOpen: 'sizeAccordion',
                 isChecked: value + this.state.isChecked
             });
             return filtered;
@@ -27654,13 +27665,20 @@ var Dropdown = function (_Component) {
             var name = e.target.name;
             var value = e.target.value;
             var crumb = e.target.name + 'Crumb';
-            this.setState((_setState3 = {}, _defineProperty(_setState3, name, value), _defineProperty(_setState3, 'isChecked', value + this.state.isChecked), _defineProperty(_setState3, crumb, value), _setState3));
-            if (name === "selectedSize") {
-                this.filterSizes(value);
+            var prefix;
+            if (name == 'selectedCollarSize') {
+                prefix = "Neck: ";
+            } else {
+                prefix = "Sleeve: ";
             }
-            if (name === 'selectedSleeve') {
-                this.buildUrl();
-            }
+            this.setState((_setState3 = {}, _defineProperty(_setState3, name, value), _defineProperty(_setState3, 'isChecked', value + this.state.isChecked), _defineProperty(_setState3, crumb, prefix + value + ' in.'), _setState3), function () {
+                if (name === "selectedSize") {
+                    this.filterSizes(value);
+                }
+                if (name === 'selectedSleeve') {
+                    this.buildUrl();
+                }
+            });
         }
     }, {
         key: 'render',
@@ -27700,11 +27718,17 @@ var Dropdown = function (_Component) {
                         _react2.default.createElement(
                             'label',
                             { className: "dropdownTitle" + (isChecked.includes(selectedFit) && selectedFit.length > 0 ? " checked" : " unchecked"), htmlFor: 'tab-one' },
-                            'Select Your Fit ',
+                            '1. Select Your Fit ',
                             _react2.default.createElement(
                                 'span',
                                 { className: 'selectedStatus' },
-                                selectedFit
+                                selectedFit,
+                                ' ',
+                                isChecked.includes(selectedFit) && selectedFit.length > 0 ? _react2.default.createElement(
+                                    'span',
+                                    { className: 'semiEdit' },
+                                    ' Edit'
+                                ) : ""
                             )
                         ),
                         _react2.default.createElement(
@@ -27760,11 +27784,17 @@ var Dropdown = function (_Component) {
                         _react2.default.createElement(
                             'label',
                             { className: "dropdownTitle" + (isChecked.includes(selectedCollar) && selectedCollar.length > 0 ? " checked" : " unchecked"), htmlFor: 'tab-two' },
-                            'Select Your Collar ',
+                            '2. Select Your Collar ',
                             _react2.default.createElement(
                                 'span',
                                 { className: 'selectedStatus' },
-                                selectedCollar
+                                selectedCollar,
+                                ' ',
+                                isChecked.includes(selectedCollar) && selectedCollar.length > 0 ? _react2.default.createElement(
+                                    'span',
+                                    { className: 'semiEdit' },
+                                    ' Edit'
+                                ) : ""
                             )
                         ),
                         _react2.default.createElement(
@@ -27822,11 +27852,17 @@ var Dropdown = function (_Component) {
                         _react2.default.createElement(
                             'label',
                             { className: "dropdownTitle" + (isChecked.includes(selectedColor) && selectedColor.length > 0 ? " checked" : " unchecked"), htmlFor: 'tab-four' },
-                            'Select Your Color ',
+                            '3. Select Your Color ',
                             _react2.default.createElement(
                                 'span',
                                 { className: 'selectedStatus' },
-                                selectedColor === '' ? '' : selectedColor === '00' ? 'White' : "Blue"
+                                selectedColor === '' ? '' : selectedColor === '00' ? 'White' : "Blue",
+                                ' ',
+                                isChecked.includes(selectedColor) && selectedColor.length > 0 ? _react2.default.createElement(
+                                    'span',
+                                    { className: 'semiEdit' },
+                                    ' Edit'
+                                ) : ""
                             )
                         ),
                         _react2.default.createElement(
@@ -27874,7 +27910,7 @@ var Dropdown = function (_Component) {
                         _react2.default.createElement(
                             'label',
                             { className: "dropdownTitle" + (isChecked.includes(selectedSleeve) && selectedSleeve.length > 0 ? " checked" : " unchecked"), htmlFor: 'tab-three' },
-                            'Select Your Size ',
+                            '4. Select Your Size ',
                             _react2.default.createElement(
                                 'span',
                                 { className: 'selectedStatus' },
@@ -27892,52 +27928,79 @@ var Dropdown = function (_Component) {
                                 'div',
                                 { className: 'selectContainer' },
                                 _react2.default.createElement(
-                                    'select',
-                                    { value: selectedSize, onChange: this.handleSelects, name: 'selectedSize', className: 'semiSelect' },
+                                    'div',
+                                    { className: 'span4' },
                                     _react2.default.createElement(
-                                        'option',
-                                        { value: selectedSize },
-                                        selectedSize
+                                        'h4',
+                                        { className: 'sizeTitle' },
+                                        'Body Size'
                                     ),
-                                    currentSizes.map(function (size) {
-                                        return _react2.default.createElement(
+                                    _react2.default.createElement(
+                                        'select',
+                                        { value: selectedSize, onChange: this.handleSelects, name: 'selectedSize', className: 'semiSelect' },
+                                        _react2.default.createElement(
                                             'option',
-                                            { value: size, key: size },
-                                            size
-                                        );
-                                    })
+                                            { value: selectedSize },
+                                            selectedSize
+                                        ),
+                                        currentSizes.map(function (size) {
+                                            return _react2.default.createElement(
+                                                'option',
+                                                { value: size, key: size },
+                                                size
+                                            );
+                                        })
+                                    )
                                 ),
                                 _react2.default.createElement(
-                                    'select',
-                                    { className: 'col semiSelect', value: selectedCollarSize, name: 'selectedCollarSize', onChange: this.handleSelects },
+                                    'div',
+                                    { className: 'span4 col' },
                                     _react2.default.createElement(
-                                        'option',
-                                        { value: selectedCollarSize },
-                                        selectedCollarSize
+                                        'h4',
+                                        { className: 'sizeTitle' },
+                                        'Neck Size'
                                     ),
-                                    currentCollarSizes.map(function (collar) {
-                                        return _react2.default.createElement(
+                                    _react2.default.createElement(
+                                        'select',
+                                        { className: 'col semiSelect', disabled: isChecked.includes(selectedSize) && selectedSize.length > 0 ? false : true, value: selectedCollarSize, name: 'selectedCollarSize', onChange: this.handleSelects },
+                                        _react2.default.createElement(
                                             'option',
-                                            { value: collar, key: collar },
-                                            collar
-                                        );
-                                    })
+                                            { value: selectedCollarSize },
+                                            selectedCollarSize
+                                        ),
+                                        currentCollarSizes.map(function (collar) {
+                                            return _react2.default.createElement(
+                                                'option',
+                                                { value: collar, key: collar },
+                                                collar
+                                            );
+                                        })
+                                    )
                                 ),
                                 _react2.default.createElement(
-                                    'select',
-                                    { className: 'col semiSelect', value: selectedSleeve, name: 'selectedSleeve', onChange: this.handleSelects },
+                                    'div',
+                                    { className: 'span4 col' },
                                     _react2.default.createElement(
-                                        'option',
-                                        { value: selectedSleeve },
-                                        selectedSleeve
+                                        'h4',
+                                        { className: 'sizeTitle' },
+                                        'Sleeve Length'
                                     ),
-                                    currentSleeveLengths.map(function (sleeve) {
-                                        return _react2.default.createElement(
+                                    _react2.default.createElement(
+                                        'select',
+                                        { className: 'col semiSelect', disabled: isChecked.includes(selectedSize) && selectedSize.length > 0 ? false : true, value: selectedSleeve, name: 'selectedSleeve', onChange: this.handleSelects },
+                                        _react2.default.createElement(
                                             'option',
-                                            { value: sleeve, key: sleeve },
-                                            sleeve
-                                        );
-                                    })
+                                            { value: selectedSleeve },
+                                            selectedSleeve
+                                        ),
+                                        currentSleeveLengths.map(function (sleeve) {
+                                            return _react2.default.createElement(
+                                                'option',
+                                                { value: sleeve, key: sleeve },
+                                                sleeve
+                                            );
+                                        })
+                                    )
                                 ),
                                 _react2.default.createElement('div', { className: 'clear' })
                             )
