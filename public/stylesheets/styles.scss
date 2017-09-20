@@ -29,15 +29,36 @@ img {
 
 
 #semiOrderShirts {
-    font-family:"DIN Next W01 Regular",arial;
-    .tab {
+    font-family:"DIN Next W01 Regular",arial !important;
+    .semiTab {
         position: relative;
         margin-bottom: 2em;
         width: 100%;
         //color: #fff;
         overflow: hidden;
+        &.semiHide {
+            &:after {
+                content: '';
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: 0;
+            }
+            form.semiForm {
+                opacity:.4;
+            }
+        }
     }
-    input:checked ~ .tab-content {
+    .selectedStatus {
+        position: relative;
+        color: black;
+        float:right;
+        opacity: .45;
+        vertical-align: middle;
+    }
+    input:checked.accordionInput ~ .semi-tab-content {
         max-height: 15em;
     }
     .accordionInput {
@@ -70,37 +91,131 @@ img {
         vertical-align: middle;
         font-family:FontAwesome;
     }
-    .tab-content {
+    .semi-tab-content {
         max-height: 0;
         overflow: hidden;
         -webkit-transition: max-height .35s;
         transition: max-height .35s;
         .selectContainer {
             //padding:3em 0;
+            padding: 2em 2.5em;
+            box-sizing: border-box;
         }
+    }
+    select.semiSelect {
+        border: none;
+        width: 32.66667%;
+        height: 3em;
+        font-size: 16px;
+        text-align: center;
+        text-align-last: center;
+        border: 1px solid black;
+        background-image: none;
+        background-color: transparent;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+        display: initial!important;
+        left: 0;
+        padding: 0;
+        position: initial;
+    }
+    .nice-select{
+        display: none!important;
+    }
+    select[name='selectedSize'] option{
+        text-transform:capitalize;
     }
     .wrapper {
         max-width:1280px;
         margin:0 auto;
     }
     .squareSelect {
-        padding: 2em 3.5em;
-        box-sizing: border-box;
         &:hover {
             cursor: pointer;
+            .selectOption {
+                opacity:.45;
+            }
         }
-        
+
         .selectOption {
             text-align: center;
             border:1px solid black;
             box-sizing: border-box;
+            padding:14px 24px;
+            .selectedTitle {
+                font-size:18px;
+                text-decoration: underline;
+            }
+            &:hover {
+                opacity:1 !important;
+                border-color:rebeccapurple;
+                h4, p {
+                    color:rebeccapurple;
+                }
+            }
+            h4 {
+                margin:0;
+            }
+            p {
+                margin-bottom:0;
+            }
+            .optionDescript {
+                margin:0;
+                font-size:12px;
+                font-family:"DIN Next W01 Light",arial !important;  
+            }
+        }
+        .selected {
+            opacity:1 !important;
+            border-color:rebeccapurple;
+            h4, p {
+                color:rebeccapurple;
+            }
+        }
+        .deselected {
+            opacity: .45;
+        }
+    }
+    .productInfo {
+        font-size:24px;
+    }
+    .semi-cta {
+        margin: 0 auto;
+        width: 60%;
+        background-color: #004072;
+        text-align: center;
+        position: relative;
+        transition: all .075s linear;
+        &.semiHide {
+            background-color:transparentize(#004072,.75);
+            transition: all .075s linear;
+            &:after {
+                content: '';
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: 0;
+            }
+            a.semia {
+                opacity:.4;
+            }
+        }
+        a.semia {
+            display: block;
+            padding: 16px 0;
+            color: white;
+            text-decoration: none;
+            font-size: 24px;
         }
     }    
     .shirtOrder {
-        max-height:650px;
+        //max-height:650px;
         overflow: scroll;
         .featuredImgSxn {
-            height: 650px;
+            //height: 650px;
             overflow:hidden;
             img {
                 object-fit: contain;

@@ -3,7 +3,7 @@ const shirtObject = [
         name: "Easy-care-stretch-slim-fit-long-sleeve-shirt-WEB-US-RG-XS",
         id: 407234,
         fit:"Slim",
-        size: 'xs',
+        size: 'XS',
         colors:['00','60'], //00 , 60
         collar: "Regular"
     },
@@ -11,7 +11,7 @@ const shirtObject = [
         name: "Easy-care-stretch-slim-fit-long-sleeve-shirt-WEB-US-RG-S",
         id: 407250,
         fit:"Slim",
-        size: 's',
+        size: 'S',
         colors:['00','60'], //00 , 60
         collar: "Regular"
     },
@@ -19,7 +19,7 @@ const shirtObject = [
         name: "Easy-care-stretch-slim-fit-long-sleeve-shirt-WEB-US-RG-M",
         id: 407251,
         fit:"Slim",
-        size: 'm',
+        size: 'M',
         colors:['00','60'], //00 , 60
         collar: "Regular"
     },
@@ -27,7 +27,7 @@ const shirtObject = [
         name: "Easy-care-stretch-slim-fit-long-sleeve-shirt-WEB-US-RG-L",
         id: 407252,
         fit:"Slim",
-        size: 'l',
+        size: 'L',
         colors:['00','60'], //00 , 60
         collar: "Regular"
     },
@@ -35,7 +35,7 @@ const shirtObject = [
         name: "Easy-care-stretch-slim-fit-long-sleeve-shirt-WEB-US-RG-XL",
         id: 407253,
         fit:"Slim",
-        size: 'xl',
+        size: 'XL',
         colors:['00','60'], //00 , 60
         collar: "Regular"
     },
@@ -43,7 +43,7 @@ const shirtObject = [
         name: "Easy-care-stretch-slim-fit-long-sleeve-shirt-WEB-US-BD-XS",
         id: 407260,
         fit:"Slim",
-        size: 'xs',
+        size: 'XS',
         colors:['00','60'], //00 , 60
         collar: "Button Down"
     },
@@ -51,7 +51,7 @@ const shirtObject = [
         name: "Easy-care-stretch-slim-fit-long-sleeve-shirt-WEB-US-BD-S",
         id: 407261,
         fit:"Slim",
-        size: 's',
+        size: 'S',
         colors:['00','60'], //00 , 60
         collar: "Button Down"
     },
@@ -59,7 +59,7 @@ const shirtObject = [
         name: "Easy-care-stretch-slim-fit-long-sleeve-shirt-WEB-US-BD-M",
         id: 407262,
         fit:"Slim",
-        size: 'm',
+        size: 'M',
         colors:['00','60'], //00 , 60
         collar: "Button Down"
     },
@@ -67,7 +67,7 @@ const shirtObject = [
         name: "Easy-care-stretch-slim-fit-long-sleeve-shirt-WEB-US-BD-L",
         id: 407263,
         fit:"Slim",
-        size: 'l',
+        size: 'L',
         colors:['00','60'], //00 , 60
         collar: "Button Down"
     },
@@ -75,7 +75,7 @@ const shirtObject = [
         name: "Easy-care-stretch-slim-fit-long-sleeve-shirt-WEB-US-BD-XL",
         id: 407264,
         fit:"Slim",
-        size: 'xl',
+        size: 'XL',
         colors:['00','60'], //00 , 60
         collar: "Button Down"
     },
@@ -83,7 +83,7 @@ const shirtObject = [
         name: "Easy-care-long-sleeve-shirt-WEB-US-RG-XS",
         id: 407233,
         fit:"Regular",
-        size : 'xs',
+        size : 'XS',
         colors:['00','63'], //00 , 63
         collar: "Regular"
     },
@@ -91,7 +91,7 @@ const shirtObject = [
         name: "Easy-care-long-sleeve-shirt-WEB-US-RG-S",
         id: 407237,
         fit:"Regular",
-        size : 's',
+        size : 'S',
         colors:['00','63'], //00 , 63
         collar: "Regular"
     },
@@ -99,7 +99,7 @@ const shirtObject = [
         name: "Easy-care-long-sleeve-shirt-WEB-US-RG-M",
         id: 407238,
         fit:"Regular",
-        size : 'm',
+        size : 'M',
         colors:['00','63'], //00 , 63
         collar: "Regular"
     },
@@ -107,7 +107,7 @@ const shirtObject = [
         name: "Easy-care-long-sleeve-shirt-WEB-US-RG-L",
         id: 407239,
         fit:"Regular",
-        size : 'l',
+        size : 'L',
         colors:['00','63'], //00 , 63
         collar: "Regular"
     },
@@ -115,7 +115,7 @@ const shirtObject = [
         name: "Easy-care-long-sleeve-shirt-WEB-US-RG-XL",
         id: 407240,
         fit:"Regular",
-        size : 'xl',
+        size : 'XL',
         colors:['00','63'], //00 , 63
         collar: "Regular"
     },
@@ -123,7 +123,7 @@ const shirtObject = [
         name: "Easy-care-long-sleeve-shirt-WEB-US-RG-2XL",
         id: 407241,
         fit:"Regular",
-        size : 'xxl',
+        size : 'XXL',
         colors:['00','63'], //00 , 63
         collar: "Regular"
     },
@@ -131,7 +131,7 @@ const shirtObject = [
         name: "Easy-care-long-sleeve-shirt-WEB-US-RG-3XL",
         id: 407242,
         fit:"Regular",
-        size : 'xxxl',
+        size : 'XXXL',
         colors:['00','63'], //00 , 63
         collar: "Regular"
     },
@@ -139,7 +139,7 @@ const shirtObject = [
         name: "Easy-care-long-sleeve-shirt-WEB-US-BD-XS",
         id: 407243,
         fit:"Regular",
-        size : 'xs',
+        size : 'XS',
         colors:['00','63'], //00 , 63
         collar: "Button Down"
     },
@@ -147,7 +147,7 @@ const shirtObject = [
         name: "Easy-care-long-sleeve-shirt-WEB-US-BD-S",
         id: 407244,
         fit:"Regular",
-        size : 's',
+        size : 'S',
         colors:['00','63'], //00 , 63
         collar: "Button Down"
     },
@@ -155,7 +155,7 @@ const shirtObject = [
         name: "Easy-care-long-sleeve-shirt-WEB-US-BD-M",
         id: 407245,
         fit:"Regular",
-        size : 'm',
+        size : 'M',
         colors:['00','63'], //00 , 63
         collar: "Button Down"
     },
@@ -163,7 +163,7 @@ const shirtObject = [
         name: "Easy-care-long-sleeve-shirt-WEB-US-BD-L",
         id: 407246,
         fit:"Regular",
-        size : 'l',
+        size : 'L',
         colors:['00','63'], //00 , 63
         collar: "Button Down"
     },
@@ -171,7 +171,7 @@ const shirtObject = [
         name: "Easy-care-long-sleeve-shirt-WEB-US-BD-XL",
         id: 407247,
         fit:"Regular",
-        size : 'xl',
+        size : 'XL',
         colors:['00','63'], //00 , 63
         collar: "Button Down"
     },
@@ -179,7 +179,7 @@ const shirtObject = [
         name: "Easy-care-long-sleeve-shirt-WEB-US-BD-2XL",
         id: 407248,
         fit:"Regular",
-        size : 'xxl',
+        size : 'XXL',
         colors:['00','63'], //00 , 63
         collar: "Button Down"
     },
@@ -187,7 +187,7 @@ const shirtObject = [
         name: "Easy-care-long-sleeve-shirt-WEB-US-BD-3XL",
         id: 407249,
         fit:"Regular",
-        size : 'xxxl',
+        size : 'XXXL',
         colors:['00','63'], //00 , 63
         collar: "Button Down"
     }
@@ -198,34 +198,52 @@ export const colorObj = {
     Slim: ['00', '60']
 }
 export const sizeObj = {
-    Regular: ['xs','s','m','l','xl','xxl','xxxl'],
-    Slim: ['xs','s','m','l','xl']
+    Regular: ['XS','S','M','L','XL','XXL','XXXL'],
+    Slim: ['XS','S','M','L','XL']
 }
 export const collarSizeObj = {
-    xs: ['14.5', '15'],
-    s: ['15.5', '16.0', '16.5'],
-    m: ['16.0', '16.5', '17'],
-    l: ['17', '17.5','18.0'],
-    xl: ['17.5', '18.0', '18.5'],
-    xxl: ['19.0', '19.5'],
-    xxxl: ['19.5', '20']
+    XS: ['14.5', '15'],
+    S: ['15.5', '16.0', '16.5'],
+    M: ['16.0', '16.5', '17'],
+    L: ['17', '17.5','18.0'],
+    XL: ['17.5', '18.0', '18.5'],
+    XXL: ['19.0', '19.5'],
+    XXXL: ['19.5', '20']
 }
 export const sleeveLengthObj = {
     Regular: {
-        xs: ['32.0', '33.0', '34.0','34.5','36.0'],
-        s: ['32.0', '33.0', '34.0','34.5','36.0', '36.5'],
-        m: ['32.0', '33.0', '34.0','34.5','36.0', '36.5', '37.0', '37.5'],
-        l: ['33.0', '34.0','34.5','36.0', '36.5', '37.0', '37.5'],
-        xl: ['33.0', '34.0','34.5','36.0', '36.5', '37.0', '37.5'],
-        xxl: ['33.0', '34.0','34.5','36.0', '36.5', '37.0', '37.5', '38.0'],
-        xxxl: ['34.5','36.0', '36.5', '37.0', '37.5', '38.0', '38.5']
+        XS: ['32.0', '33.0', '34.0','34.5','36.0'],
+        S: ['32.0', '33.0', '34.0','34.5','36.0', '36.5'],
+        M: ['32.0', '33.0', '34.0','34.5','36.0', '36.5', '37.0', '37.5'],
+        L: ['33.0', '34.0','34.5','36.0', '36.5', '37.0', '37.5'],
+        XL: ['33.0', '34.0','34.5','36.0', '36.5', '37.0', '37.5'],
+        XXL: ['33.0', '34.0','34.5','36.0', '36.5', '37.0', '37.5', '38.0'],
+        XXXL: ['34.5','36.0', '36.5', '37.0', '37.5', '38.0', '38.5']
     },
     Slim: {
-        xs: ['32.5', '33.5', '34.5','35.5','36.0'],
-        s: ['32.5', '33.5', '34.5','35.5','36.0','37.0'],
-        m: ['32.5', '33.5', '34.5','35.5','36.0','37.0','37.5','38.0'],
-        l: ['33.5', '34.5','35.5','36.0','37.0','37.5','38.0'],
-        xl: ['34.5','35.5','36.0','37.0','37.5','38.0']
+        XS: ['32.5', '33.5', '34.5','35.5','36.0'],
+        S: ['32.5', '33.5', '34.5','35.5','36.0','37.0'],
+        M: ['32.5', '33.5', '34.5','35.5','36.0','37.0','37.5','38.0'],
+        L: ['33.5', '34.5','35.5','36.0','37.0','37.5','38.0'],
+        XL: ['34.5','35.5','36.0','37.0','37.5','38.0']
     }
 }
+
+export const imageObj = {
+    "00": {
+        Regular:"https://uniqlo.scene7.com/is/image/UNIQLO/goods_00_196195_2?$detail$",
+        "Button Down":"https://uniqlo.scene7.com/is/image/UNIQLO/goods_00_196194_2?$detail$"
+    },
+    "60": {
+        Swatch:"https://uniqlo.scene7.com/is/image/UNIQLO/goods_60_196195_chip?$jpgHQ$",
+        Regular:"https://uniqlo.scene7.com/is/image/UNIQLO/goods_60_196195_2?$detail$",
+        "Button Down":"https://uniqlo.scene7.com/is/image/UNIQLO/goods_60_196194_2?$detail$"
+    },
+    "63": {
+        Swatch:"https://uniqlo.scene7.com/is/image/UNIQLO/goods_63_401362_chip?$jpgHQ$",
+        Regular:"https://uniqlo.scene7.com/is/image/UNIQLO/goods_63_401362?$detail$",
+        "Button Down":"https://uniqlo.scene7.com/is/image/UNIQLO/goods_63_400653?$detail$"
+    }
+}
+
 export default shirtObject;

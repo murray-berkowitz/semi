@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Cta from './CTA'
 import Collapsible from 'react-collapsible';
 import Accordion from 'react-responsive-accordion';
-import shirtObject, {colorObj, sleeveLengthObj, collarSizeObj,sizeObj} from './shirtObj';
+import shirtObject, {colorObj, sleeveLengthObj, collarSizeObj,sizeObj, imageObj} from './shirtObj';
 export default class Dropdown extends Component{
     constructor(){
         super();
@@ -19,7 +19,8 @@ export default class Dropdown extends Component{
             currentShirtObj : shirtObject,
             currentColors: [],
             currentSizes: [],
-            isChecked:'unchecked',
+            isChecked:'',
+            currentBlueSwatch:'',
             isOpen: 'fitAccordion',
             currentSleeveLengths: [],
             currentCollarSizes: [],
@@ -27,10 +28,14 @@ export default class Dropdown extends Component{
             selectedCollar: '',
             selectedFit: '',
             selectedColor: '',
-            selectedCollarSize: 'Select Your Collar Size',
-            selectedSize: 'Select Your Shirt Size',
-            selectedSleeve: 'Select Your Sleeve Length',
-            currentImage: 'https://images.pexels.com/photos/104827/cat-pet-animal-domestic-104827.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb'
+            selectedCollarSize: 'Neck Size',
+            selectedSize: 'Body Size',
+            selectedSleeve: 'Sleeve Length',
+            selectedSizeCrumb:'',
+            selectedSleeveCrumb:'',
+            cta:'',
+            selectedCollarSizeCrumb:'',
+            currentImage: ''
         }
         this.baseState = this.state;
     }
@@ -55,7 +60,9 @@ export default class Dropdown extends Component{
         var name = this.state.currentShirtObj[0].name;
         var id = this.state.currentShirtObj[0].id;
         var url = `https://uniqlo.com/us/en/product/${name}-${id}col${this.state.selectedColor}nki${collarSize}${sleeveLength}.html`;
-        this.props.updateCta(url);
+        this.setState({
+            cta: url
+        })
     }
     filterFit(value){
         var filtered = shirtObject.filter(function(shirt){
@@ -65,16 +72,20 @@ export default class Dropdown extends Component{
             currentShirtObj : filtered,
             selectedCollar: '',
             selectedColor: '',
-            selectedSleeve: 'Select Your Sleeve Length',
-            selectedSize: 'Select Your Shirt Size',
-            selectedCollarSize: 'Select Your Collar Size',
+            selectedFit: value,
+            isChecked: value,
+            selectedSleeve: 'Sleeve Length',
+            selectedSize: 'Body Size',
+            selectedCollarSize: 'Neck Size',
+            isOpen: 'collarAccordion',
             currentColors: colorObj[value],
+            currentBlueSwatch:imageObj[colorObj[value][1]].Swatch,
             currentCollarSizes: [],
             currentSleeveLengths: [],
-            currentSizes:sizeObj[value],
-            currentImage: 'https://uniqlo.scene7.com/is/image/UNIQLO/goods_63_401362?$detail$'
-        }, function(){
-            this.props.updateFeaturedImage(this.state.currentImage);
+            selectedSizeCrumb:'',
+            selectedSleeveCrumb:'',
+            selectedCollarSizeCrumb:'',
+            currentSizes:sizeObj[value]
         })
         return filtered;
     }
@@ -85,17 +96,25 @@ export default class Dropdown extends Component{
         })
         this.setState({
             selectedCollar: value,
-            currentShirtObj: filtered
+            currentShirtObj: filtered,
+            isOpen: 'colorAccordion',
+            isChecked: value + ' ' + this.state.isChecked,
+            currentImage:imageObj["60"][value]
+        }, function(){
+            this.props.updateFeaturedImage(this.state.currentImage);
         })
         return filtered;
     }
     filterColor(value){
+        
         this.setState({
             selectedColor: value,
-            currentImage: 'http://builtwithreact.io/img/share-logo.jpg'
+            currentImage: 'http://builtwithreact.io/img/share-logo.jpg',
+            isChecked: value + ' ' + this.state.isChecked,
+            isOpen: 'sizeAccordion',
+            currentImage:imageObj[value][this.state.selectedCollar]
         },function(){
             this.props.updateFeaturedImage(this.state.currentImage);
-            this.buildUrl();
         });
     }
     filterSizes(value){
@@ -107,9 +126,11 @@ export default class Dropdown extends Component{
             currentShirtObj : filtered,
             currentCollarSizes: collarSizeObj[value],
             currentSleeveLengths: sleeveLengthObj[this.state.selectedFit][value],
-            selectedCollarSize: 'Select Your Collar Size',
-            selectedSleeve: 'Select Your Sleeve Length',
-            selectedSize:value
+            selectedCollarSize: 'Neck Size',
+            selectedSleeve: 'Sleeve Length',
+            selectedSizeCrumb: value,
+            selectedSize:value,
+            isChecked: value + this.state.isChecked
         })
         return filtered;
     }
@@ -134,31 +155,36 @@ export default class Dropdown extends Component{
     handleSelects(e){
         var name = e.target.name;
         var value = e.target.value;
+        var crumb = e.target.name +'Crumb';
         this.setState({
-            [name] : value
+            [name] : value,
+            isChecked: value + this.state.isChecked,
+            [crumb]: value
         })
         if(name === "selectedSize"){
             this.filterSizes(value);
         }
+        if(name === 'selectedSleeve'){
+            this.buildUrl();
+        }
     }
     render(){
-        const {isChecked, selectedFilters, currentShirtObj, selectedFit, selectedSize, selectedColor, currentColors, collars, selectedCollar, isOpen, currentCollarSizes,currentSizes,selectedSleeve, currentSleeveLengths, selectedCollarSize} = this.state;
-        const cta = this.props.cta;
+        const {cta,currentBlueSwatch,selectedSizeCrumb, selectedCollarSizeCrumb, selectedSleeveCrumb, isChecked, selectedFilters, currentShirtObj, selectedFit, selectedSize, selectedColor, currentColors, collars, selectedCollar, isOpen, currentCollarSizes,currentSizes,selectedSleeve, currentSleeveLengths, selectedCollarSize} = this.state;
         return (
             <div>
-               <div className='tab'>
-               <form>
+               <div className='semiTab'>
+               <form className="semiForm">
                  <input id="tab-one" type="checkbox" name="fitAccordion" className="accordionInput" checked={"fitAccordion" === isOpen} onChange={this.selectedAccoridon}/>
-                 <label className={`dropdownTitle ${isChecked}`} htmlFor="tab-one">Select Your Fit</label>
-                 <div className="tab-content">
+                 <label className={"dropdownTitle" + (isChecked.includes(selectedFit) && selectedFit.length > 0 ? " checked" : " unchecked")} htmlFor="tab-one">Select Your Fit <span className="selectedStatus">{selectedFit}</span></label>
+                 <div className="semi-tab-content">
                  <div className="selectContainer">
                  <div className="squareSelect span12">
-                   <div className="selectOption span6" name="selectedFit" value="Slim" onClick={this.selectedRadio}>
-                     <h4>Regular Fit</h4>
+                   <div className={"selectOption span6"+ (selectedFit === 'Regular' ? " selected" : selectedFit != '' ? " deselected" : '')} name="selectedFit" value="Regular" onClick={this.selectedRadio}>
+                     <h4 className='selectedTitle'>Regular Fit</h4>
                      <p>More room in arm, shoulder and chest</p>
                    </div>
-                   <div className="selectOption span6 col" name="selectedFit" value="Regular" onClick={this.selectedRadio}>
-                    <h4>Slim Fit</h4>
+                   <div className={"selectOption span6 col"+ (selectedFit === 'Slim' ? " selected" : selectedFit != '' ? " deselected" : '')} name="selectedFit" value="Slim" onClick={this.selectedRadio}>
+                    <h4 className='selectedTitle'>Slim Fit</h4>
                     <p>Sharper Silhouette + stretchy material</p>
                    </div>
                  </div>
@@ -167,18 +193,22 @@ export default class Dropdown extends Component{
                  </div>
                </form>
                </div>
-               <div className='tab'>
-               <form>
+               <div className={'semiTab' + (isChecked.includes(selectedFit) && selectedFit.length > 0 ? "" : " semiHide")}>
+               <form className="semiForm">
                   <input id="tab-two" type="checkbox" className="accordionInput" name="collarAccordion" checked={"collarAccordion" === isOpen} onChange={this.selectedAccoridon}/>
-                  <label className={`dropdownTitle {${isChecked}}`} htmlFor="tab-two">Select Your Collar</label>
-                  <div className="tab-content">
+                  <label className={"dropdownTitle" + (isChecked.includes(selectedCollar) && selectedCollar.length > 0 ? " checked" : " unchecked")} htmlFor="tab-two">Select Your Collar <span className="selectedStatus">{selectedCollar}</span></label>
+                  <div className="semi-tab-content">
                   <div className="selectContainer">
                     <div className="squareSelect span12">
-                    <div className="selectOption span6" name="selectedCollar" value="Regular" onClick={this.selectedRadio}>
+                    <div className={"selectOption span6"+ (selectedCollar === 'Regular' ? " selected" : selectedCollar != '' ? " deselected" : '')} name="selectedCollar" value="Regular" onClick={this.selectedRadio}>
+                      <img src="https://uniqlo.scene7.com/is/image/UNIQLO/goods_60_196195?$detail$&cropN=0,0,1,0.5&wid=840&hei=420"/>
                       <h4>Regular Collar</h4>
+                      <p className='optionDescript'>Broadcloth</p>
                     </div>
-                    <div className="selectOption span6 col" name="selectedCollar" value="Button Down" onClick={this.selectedRadio}>
-                     <h4>Button Down Collar</h4>
+                    <div className={"selectOption span6 col"+ (selectedCollar === 'Button Down' ? " selected" : selectedCollar != '' ? " deselected" : '')} name="selectedCollar" value="Button Down" onClick={this.selectedRadio}>
+                      <img src="https://uniqlo.scene7.com/is/image/UNIQLO/goods_60_196194?$detail$&cropN=0,0,1,0.5&wid=840&hei=420"/>
+                      <h4>Button Down Collar</h4>
+                      <p className='optionDescript'>Pinpoint Oxford</p>
                     </div>
                   </div>
                   <div className="clear"></div>
@@ -186,13 +216,34 @@ export default class Dropdown extends Component{
                  </div>
                </form>
                </div>
-               <div className='tab'>
-               <form>
+               <div className={'semiTab' + (isChecked.includes(selectedCollar) && selectedCollar.length > 0? "" : " semiHide")}>
+               <form className="semiForm">
+                 <input id="tab-four" type="checkbox" className="accordionInput" name="colorAccordion" checked={"colorAccordion" === isOpen} onChange={this.selectedAccoridon}/>               
+                 <label className={"dropdownTitle" + (isChecked.includes(selectedColor) && selectedColor.length > 0 ? " checked" : " unchecked")} htmlFor="tab-four">Select Your Color <span className="selectedStatus">{selectedColor === '' ? '' : selectedColor === '00' ? 'White' : "Blue"}</span></label>
+                 <div className="semi-tab-content">
+                 <div className="selectContainer">
+                    <div className="squareSelect span12">
+                    <div className={"selectOption span6"+ (selectedColor === '00' ? " selected" : selectedCollar != '' ? " deselected" : '')} name="selectedColor" value="00" onClick={this.selectedRadio}>
+                    <img src="https://uniqlo.scene7.com/is/image/UNIQLO/goods_00_196194_chip?$jpgHQ$"/>
+                    <h4>White</h4>
+                    </div>
+                    <div className={"selectOption span6 col"+ (selectedColor === currentColors[1] ? " selected" : selectedCollar != '' ? " deselected" : '')} name="selectedColor" value={currentColors[1]} onClick={this.selectedRadio}>
+                    <img src={currentBlueSwatch}/>
+                    <h4>Blue</h4>
+                    </div>
+                </div>
+                <div className="clear"></div>
+                 </div>  
+                 </div>
+               </form>
+               </div>
+               <div className={'semiTab' + (isChecked.includes(selectedColor) && selectedColor.length > 0 ? "" : " semiHide")}>
+               <form className="semiForm">
                    <input id="tab-three" type="checkbox" className="accordionInput" name="sizeAccordion" checked={"sizeAccordion" === isOpen} onChange={this.selectedAccoridon}/>
-                   <label className={`dropdownTitle ${isChecked}`} htmlFor="tab-three">Select Your Size</label>
-                   <div className="tab-content">
+                   <label className={"dropdownTitle" + (isChecked.includes(selectedSleeve) && selectedSleeve.length > 0 ? " checked" : " unchecked")} htmlFor="tab-three">Select Your Size <span className="selectedStatus">{selectedSizeCrumb} {selectedCollarSizeCrumb} {selectedSleeveCrumb}</span></label>
+                   <div className="semi-tab-content">
                    <div className="selectContainer">
-                   <select value={selectedSize} onChange={this.handleSelects} name="selectedSize">
+                   <select value={selectedSize} onChange={this.handleSelects} name="selectedSize" className="semiSelect">
                        <option value={selectedSize}>{selectedSize}</option>
                        {
                          currentSizes.map(size => (
@@ -200,7 +251,7 @@ export default class Dropdown extends Component{
                          ))
                        }
                    </select>
-                   <select value={selectedCollarSize} name="selectedCollarSize" onChange={this.handleSelects}>
+                   <select className="col semiSelect" value={selectedCollarSize} name="selectedCollarSize" onChange={this.handleSelects}>
                         <option value={selectedCollarSize}>{selectedCollarSize}</option>
                         {
                             currentCollarSizes.map(collar => (
@@ -208,7 +259,7 @@ export default class Dropdown extends Component{
                             ))
                         }
                    </select>
-                   <select value={selectedSleeve} name="selectedSleeve" onChange={this.handleSelects}>
+                   <select className="col semiSelect" value={selectedSleeve} name="selectedSleeve" onChange={this.handleSelects}>
                         <option value={selectedSleeve}>{selectedSleeve}</option>
                         {
                             currentSleeveLengths.map(sleeve => (
@@ -216,25 +267,12 @@ export default class Dropdown extends Component{
                             ))
                         }
                     </select>
+                    <div className="clear"></div>
                     </div>
                     </div>
                </form>
                </div>
-               <div className='tab'>
-               <form>
-                 <input id="tab-four" type="checkbox" className="accordionInput" name="colorAccordion" checked={"colorAccordion" === isOpen} onChange={this.selectedAccoridon}/>               
-                 <label className={`dropdownTitle ${isChecked}`} htmlFor="tab-four">Select Your Color</label>
-                 <div className="tab-content">
-                 <div className="selectContainer">
-                   {
-                     currentColors.map(color => (
-                       <label key={color}>{color}<input type="radio" name="selectedColor" value={color} checked={color == selectedColor} onChange={this.selectedRadio}></input></label>
-                     ))
-                   }
-                 </div>  
-                 </div>
-               </form>
-               </div>
+               <Cta className={(isChecked.includes(selectedSleeve) && selectedSleeve.length > 0? "" : " semiHide")} url={cta}/>
            </div>
         )
     }
